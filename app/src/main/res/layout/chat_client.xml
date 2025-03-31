@@ -7,60 +7,85 @@
 
     <ImageButton
         android:id="@+id/chatBackButton"
-        android:layout_width="93dp"
-        android:layout_height="97dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp"
+        android:layout_width="68dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="41dp"
+        app:layout_constraintEnd_toStartOf="@+id/chatOrderStatusButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <EditText
         android:id="@+id/chatMessageInput"
         android:layout_width="234dp"
         android:layout_height="62dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="28dp"
         android:ems="10"
         android:hint="Message Shopper..."
         android:inputType="text"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="640dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sendMessageButton"
+        app:layout_constraintStart_toEndOf="@+id/sendMessageButton" />
 
     <ImageButton
         android:id="@+id/sendMessageButton"
         android:layout_width="72dp"
         android:layout_height="71dp"
-        tools:layout_editor_absoluteX="323dp"
-        tools:layout_editor_absoluteY="640dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/chatMessageInput"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageButton
         android:id="@+id/videoButton"
-        android:layout_width="93dp"
-        android:layout_height="100dp"
-        tools:layout_editor_absoluteX="302dp"
-        tools:layout_editor_absoluteY="50dp"
+        android:layout_width="81dp"
+        android:layout_height="82dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/chatBuyerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="62dp" />
 
     <Button
         android:id="@+id/chatOrderStatusButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="157dp"
-        tools:layout_editor_absoluteY="102dp" />
+        android:layout_marginTop="12dp"
+        android:text="Order Status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chatBuyerName" />
+
+    <TextView
+        android:id="@+id/chatBuyerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Jake Shopper"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/attachmentButton"
         android:layout_width="60dp"
         android:layout_height="57dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="640dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chatMessageInput"
+        app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

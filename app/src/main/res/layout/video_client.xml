@@ -9,31 +9,43 @@
         android:id="@+id/endCallButton"
         android:layout_width="93dp"
         android:layout_height="80dp"
-        app:srcCompat="@android:drawable/stat_sys_phone_call"
-        tools:layout_editor_absoluteX="159dp"
-        tools:layout_editor_absoluteY="624dp" />
+        android:layout_marginStart="45dp"
+        android:layout_marginBottom="27dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/switchCameraButton"
+        app:srcCompat="@android:drawable/stat_sys_phone_call" />
 
     <ImageButton
         android:id="@+id/switchCameraButton"
         android:layout_width="93dp"
         android:layout_height="80dp"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        tools:layout_editor_absoluteX="21dp"
-        tools:layout_editor_absoluteY="624dp" />
+        android:layout_marginStart="21dp"
+        android:layout_marginBottom="27dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <ImageButton
         android:id="@+id/videoBackButton"
         android:layout_width="93dp"
         android:layout_height="97dp"
-        tools:layout_editor_absoluteX="23dp"
-        tools:layout_editor_absoluteY="19dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="19dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/videoFeedView"
         android:layout_width="369dp"
         android:layout_height="476dp"
-        tools:layout_editor_absoluteX="21dp"
-        tools:layout_editor_absoluteY="127dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="21dp"
+        app:layout_constraintBottom_toTopOf="@+id/endCallButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/videoBackButton"
         tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>
