@@ -5,22 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="618dp">
-
-    </com.google.android.material.textfield.TextInputLayout>
+    <ImageButton
+        android:id="@+id/chatBackButton"
+        android:layout_width="93dp"
+        android:layout_height="97dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <EditText
-        android:id="@+id/messageInput"
-        android:layout_width="238dp"
-        android:layout_height="68dp"
+        android:id="@+id/chatMessageInput"
+        android:layout_width="234dp"
+        android:layout_height="62dp"
         android:ems="10"
         android:hint="Message Shopper..."
         android:inputType="text"
-        tools:layout_editor_absoluteX="76dp"
+        tools:layout_editor_absoluteX="80dp"
         tools:layout_editor_absoluteY="640dp" />
 
     <ImageButton
@@ -40,7 +40,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/buyerName"
+        android:id="@+id/chatBuyerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -48,7 +48,7 @@
         tools:layout_editor_absoluteY="62dp" />
 
     <Button
-        android:id="@+id/orderStatusButton"
+        android:id="@+id/chatOrderStatusButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
