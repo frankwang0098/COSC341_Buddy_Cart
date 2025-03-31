@@ -15,12 +15,12 @@
 
     <EditText
         android:id="@+id/messageInput"
-        android:layout_width="297dp"
-        android:layout_height="70dp"
+        android:layout_width="238dp"
+        android:layout_height="68dp"
         android:ems="10"
         android:hint="Message Shopper..."
         android:inputType="text"
-        tools:layout_editor_absoluteX="17dp"
+        tools:layout_editor_absoluteX="76dp"
         tools:layout_editor_absoluteY="640dp" />
 
     <ImageButton
@@ -28,6 +28,38 @@
         android:layout_width="72dp"
         android:layout_height="71dp"
         tools:layout_editor_absoluteX="323dp"
+        tools:layout_editor_absoluteY="640dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageButton
+        android:id="@+id/videoButton"
+        android:layout_width="93dp"
+        android:layout_height="100dp"
+        tools:layout_editor_absoluteX="302dp"
+        tools:layout_editor_absoluteY="50dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/buyerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="62dp" />
+
+    <Button
+        android:id="@+id/orderStatusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="157dp"
+        tools:layout_editor_absoluteY="102dp" />
+
+    <ImageButton
+        android:id="@+id/attachmentButton"
+        android:layout_width="60dp"
+        android:layout_height="57dp"
+        tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="640dp"
         tools:srcCompat="@tools:sample/avatars" />
 
