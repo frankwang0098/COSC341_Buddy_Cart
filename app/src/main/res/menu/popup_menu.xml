@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Chantal: this is the buddy-cart popup menu, each items has a representative icon for
+visual recognition, this menu popups when the hamburger is clicked-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_my_account"
+        android:title="My Account"
+        android:icon="@drawable/myaccount" />
+    <item
+        android:id="@+id/menu_my_cart"
+        android:title="My Cart"
+        android:icon="@drawable/cart" />
+    <item
+        android:id="@+id/menu_favorites"
+        android:title="Favorites"
+        android:icon="@drawable/favorites" />
+    <item
+        android:id="@+id/menu_language"
+        android:title="Language"
+        android:icon="@drawable/languages" />
+    <item
+        android:id="@+id/menu_share_feedback"
+        android:title="Share Feedback"
+        android:icon="@drawable/feedback" />
+    <item
+        android:id="@+id/menu_sign_out"
+        android:title="Sign Out"
+        android:icon="@drawable/signout" />
+</menu>
