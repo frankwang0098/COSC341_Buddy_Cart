@@ -20,10 +20,10 @@ visual recognition, this menu popups when the hamburger is clicked-->
         android:icon="@drawable/languages" />
     <item
         android:id="@+id/menu_share_feedback"
-        android:title="Share Feedback"
+        android:title="Feedback"
         android:icon="@drawable/feedback" />
     <item
         android:id="@+id/menu_sign_out"
-        android:title="Sign Out"
+        android:title="Logout"
         android:icon="@drawable/signout" />
 </menu>

@@ -41,7 +41,7 @@
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
-    <!--home button -->
+    <!--home button Chantal: I still need to switch out the shop button for something better -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);  // Make sure this matches your XML filename
+        setContentView(R.layout.activity_main);
 
         // Initialize views
         hamburgerIcon = findViewById(R.id.imageViewHamburger);
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             View child = grid.getChildAt(i);
             Object tagObj = child.getTag();
             if (tagObj != null && tagObj.toString().toLowerCase().equals(query)) {
-                child.setBackgroundColor(Color.parseColor("#FFFF99")); // Yellow highlight
+                child.setBackgroundColor(Color.parseColor("#FFFF99")); // Yellow highlight.
             } else {
                 child.setBackgroundColor(Color.TRANSPARENT);
             }
@@ -499,19 +499,18 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 true
         );
-
-        // IMPORTANT: Make sure cart_popup.xml has textViewCartPopupMessage defined
-        TextView textViewCartPopupMessage = popupView.findViewById(R.id.textViewCartPopupMessage);
-        if (globalCartCount > 0) {
-            textViewCartPopupMessage.setText(globalCartCount + " items in your cart");
-        } else {
-            textViewCartPopupMessage.setText("Your cart is empty");
-        }
+        // Update the cart popup message if needed (e.g., using a TextView in your cart_popup layout)
+        // Example (uncomment and update if you have a TextView with id textViewCartPopupMessage):
+        // TextView textViewCartPopupMessage = popupView.findViewById(R.id.textViewCartPopupMessage);
+        // if (globalCartCount > 0) {
+        //     textViewCartPopupMessage.setText("You have " + globalCartCount + " items");
+        // } else {
+        //     textViewCartPopupMessage.setText("Your cart is empty");
+        // }
 
         Button buttonCartHome = popupView.findViewById(R.id.buttonCartHome);
         Button buttonCartShop = popupView.findViewById(R.id.buttonCartShop);
         Button buttonCartLogout = popupView.findViewById(R.id.buttonCartLogout);
-
         buttonCartHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -534,8 +533,7 @@ public class MainActivity extends AppCompatActivity {
                 System.exit(0);
             }
         });
-
-        // Show popup below the cart icon
+        // Changed this line to use showAsDropDown() so the popup appears just below the cart icon.
         popupWindow.showAsDropDown(cartIcon, 0, 0);
     }
 }
