@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">COSC341_Buddy_Cart</string>
+    <string-array name="cartexample">
+        <item>Cart Breakdown       </item>
+        <item>5 items              </item>
+        <item>x1 Dog Food    $25.99</item>
+        <item>x1 Chicken     $8.99 </item>
+        <item>x2 Dozen eggs  $8.58 </item>
+        <item>x2 Bread       $6.98 </item>
+        <item>SubTotal       $77.12</item>
+        <item>Taxes          $10.99</item>
+        <item>Delivery       $10.99</item>
+        <item>Total          $99.10</item>
+
+    </string-array>
+
 </resources>
