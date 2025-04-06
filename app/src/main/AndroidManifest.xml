@@ -25,7 +25,7 @@
             android:name=".SavedPaymentMethod"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".CartActivity"
             android:exported="false" />
         <activity
             android:name=".StartingScreen"

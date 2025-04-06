@@ -15,17 +15,14 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_cart);
 
         TextView instructionText = findViewById(R.id.instructiontext);
 
@@ -42,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Spinner itemDropdown = findViewById(R.id.itemdropdown);
 
         backbutton.setOnClickListener(view -> {
-            Toast.makeText(MainActivity.this, "Going back to shopping", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CartActivity.this, "Going back to shopping", Toast.LENGTH_SHORT).show();
         });
         orderButton.setOnClickListener(view -> {
             Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0){
-                    Toast.makeText(MainActivity.this, "Selected: "+parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CartActivity.this, "Selected: "+parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -77,18 +74,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         paymentbutton.setOnClickListener(view ->{
-            Intent intent = new Intent(MainActivity.this, SavedPaymentMethod.class);
+            Intent intent = new Intent(CartActivity.this, SavedPaymentMethod.class);
             startActivity(intent);
         });
         promoCodebutton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, PromoCodeActivity.class);
+            Intent intent = new Intent(CartActivity.this, PromoCodeActivity.class);
             startActivity(intent);
         });
 
         instructionbutton.setOnClickListener(view -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
 
-            final EditText input = new EditText(MainActivity.this);
+            final EditText input = new EditText(CartActivity.this);
             builder.setView(input);
             builder.setPositiveButton("OK",(dialog, which) -> {
                 String instruction = input.getText().toString();

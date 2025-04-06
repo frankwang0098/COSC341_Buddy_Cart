@@ -30,7 +30,7 @@ public class PromoCodeActivity extends AppCompatActivity {
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PromoCodeActivity.this, MainActivity.class);
+                Intent intent = new Intent(PromoCodeActivity.this, CartActivity.class);
                 startActivity(intent);
                 finish();
             }

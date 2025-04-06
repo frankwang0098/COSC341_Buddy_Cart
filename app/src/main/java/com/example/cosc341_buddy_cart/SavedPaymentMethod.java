@@ -33,7 +33,8 @@ public class SavedPaymentMethod  extends AppCompatActivity {
         View.OnClickListener goBackListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(SavedPaymentMethod.this, CartActivity.class);
+                startActivity(intent);
             }
         };
         backbutton.setOnClickListener(goBackListener);
