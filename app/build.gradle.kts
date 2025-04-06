@@ -3,12 +3,21 @@ plugins {
 }
 
 android {
+<<<<<<< HEAD
     namespace = "com.example.buddycart"
     compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.buddycart"
         minSdk = 24
+=======
+    namespace = "com.example.cosc341_buddy_cart"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "com.example.cosc341_buddy_cart"
+        minSdk = 35
+>>>>>>> 3b1bf1977c2bd21f18883e7670405a78853ae081
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
