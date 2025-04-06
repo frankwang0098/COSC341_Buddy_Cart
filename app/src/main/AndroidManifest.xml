@@ -13,6 +13,18 @@
         android:theme="@style/Theme.COSC341_Buddy_Cart"
         tools:targetApi="31">
         <activity
+            android:name=".PaymentActvitiy"
+            android:exported="false" />
+        <activity
+            android:name=".OldPromoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PromoCodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SavedPaymentMethod"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
