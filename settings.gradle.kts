@@ -19,7 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-
-rootProject.name = "COSC341_Buddy_Cart"
-
+rootProject.name = "BuddyCart"
 include(":app")

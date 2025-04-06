@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <resouwhatrces>
     <!--Chantal: for the main sections blue/orange or blue/green will be used for easier  differentiation -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
     </resouwhatrces>
-=======
-<resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-</resources>
->>>>>>> 3b1bf1977c2bd21f18883e7670405a78853ae081

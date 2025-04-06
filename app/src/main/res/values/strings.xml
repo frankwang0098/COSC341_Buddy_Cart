@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Name -->
@@ -32,8 +31,3 @@
     <string name="menu_share_feedback">Share Feedback</string>
     <string name="menu_sign_out">Sign Out</string>
 </resources>
-=======
-<resources>
-    <string name="app_name">COSC341_Buddy_Cart</string>
-</resources>
->>>>>>> 3b1bf1977c2bd21f18883e7670405a78853ae081

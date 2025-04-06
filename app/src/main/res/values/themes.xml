@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--Chantal: use a blue color scheme for better accessibility.
@@ -7,14 +6,4 @@
         <!-- Set the primary, variant, and secondary colors to blue -->
 
     </style>
-=======
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.COSC341_Buddy_Cart" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
-
-    <style name="Theme.COSC341_Buddy_Cart" parent="Base.Theme.COSC341_Buddy_Cart" />
->>>>>>> 3b1bf1977c2bd21f18883e7670405a78853ae081
 </resources>
