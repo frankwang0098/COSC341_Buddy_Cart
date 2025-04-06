@@ -29,6 +29,9 @@
             android:name=".CartActivity"
             android:exported="false" />
         <activity
+            android:name=".MainActivity"
+            android:exported="true"/>
+        <activity
             android:name=".StartingScreen"
             android:exported="true" >
             <intent-filter>
