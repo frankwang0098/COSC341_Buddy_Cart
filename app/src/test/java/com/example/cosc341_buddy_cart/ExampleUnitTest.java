@@ -1,4 +1,4 @@
-package com.example.buddycart;
+package com.example.cosc341_buddy_cart;
 
 import org.junit.Test;
 
