@@ -40,6 +40,8 @@ public class CartActivity extends AppCompatActivity {
 
         backbutton.setOnClickListener(view -> {
             Toast.makeText(CartActivity.this, "Going back to shopping", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CartActivity.this, MainActivity.class);
+            startActivity(intent);
         });
         orderButton.setOnClickListener(view -> {
             Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
