@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Chantal: I was trying to get the click item and search to work together
+     to highlight when clicked and then transparent when not clicked so still working on this see Orcale-->
+    <style name="Theme.BuddyCart" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Disable the default animated splash icon -->
+        <item name="android:windowSplashScreenAnimatedIcon">@null</item>
+        <!-- Set the splash screen background to transparent -->
+        <item name="android:windowSplashScreenBackground">@android:color/transparent</item>
+        <!-- Remove splash screen animation duration -->
+        <item name="android:windowSplashScreenAnimationDuration">0</item>
+    </style>
+</resources>
