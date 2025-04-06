@@ -13,7 +13,7 @@
         android:theme="@style/Theme.COSC341_Buddy_Cart"
         tools:targetApi="31">
         <activity
-            android:name=".PaymentActvitiy"
+            android:name=".PaymentActivity"
             android:exported="false" />
         <activity
             android:name=".OldPromoActivity"
