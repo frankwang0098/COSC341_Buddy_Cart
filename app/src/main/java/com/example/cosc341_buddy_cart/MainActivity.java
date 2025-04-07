@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewItems.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize the grocery items list.
+        // Spend a ton of time trying to pull the information from the database on launch. But ran into too many problems so will go for another method.
         groceryItems = new ArrayList<>();
         groceryItems.add(new GroceryItem("Bread", 2.49));
         groceryItems.add(new GroceryItem("Milk", 7.49));
