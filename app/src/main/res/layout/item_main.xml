@@ -6,13 +6,26 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
+    <!-- Image beside each item -->
+    <ImageView
+        android:id="@+id/imageViewItem"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/placeholder_image"
+        android:contentDescription="Item image"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <!-- Vertical container for item name and price -->
     <LinearLayout
         android:id="@+id/linearLayoutText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/imageViewItem"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/quantityLayout">
