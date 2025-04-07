@@ -154,9 +154,14 @@ public class ShopperMainActivity extends AppCompatActivity {
             // Set up view based on the completion state
             if (orderItem.isCompleted) {
                 holder.buttonLayout.setVisibility(View.GONE);
+                holder.substituteLayout.setVisibility(View.GONE);
                 holder.textViewStatus.setVisibility(View.VISIBLE);
+                // If available was confirmed, status shows "Item found" in green.
+                holder.textViewStatus.setText("Item found");
+                holder.textViewStatus.setTextColor(android.graphics.Color.GREEN);
             } else {
                 holder.buttonLayout.setVisibility(View.VISIBLE);
+                holder.substituteLayout.setVisibility(View.GONE);
                 holder.textViewStatus.setVisibility(View.GONE);
             }
 
@@ -184,11 +189,70 @@ public class ShopperMainActivity extends AppCompatActivity {
                 }
             });
 
-            // "Unavailable" button action
+            // "Unavailable" button action: show confirmation, then reveal substitute layout.
             holder.buttonUnavailable.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ShopperMainActivity.this, "Item marked as unavailable", Toast.LENGTH_SHORT).show();
+                    int pos = holder.getAdapterPosition();
+                    if (pos == RecyclerView.NO_POSITION) return;
+
+                    new AlertDialog.Builder(ShopperMainActivity.this)
+                            .setTitle("Confirm")
+                            .setMessage("Mark this item as unavailable?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Hide original available/unavailable buttons
+                                    holder.buttonLayout.setVisibility(View.GONE);
+                                    // Show substitute buttons layout
+                                    holder.substituteLayout.setVisibility(View.VISIBLE);
+                                }
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                }
+            });
+
+            // "Substitute Found" button action
+            holder.buttonSubFound.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(ShopperMainActivity.this)
+                            .setTitle("Confirm")
+                            .setMessage("Mark substitute as found?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(ShopperMainActivity.this, "Substitute found", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                }
+            });
+
+            // "Substitute Not Found" button action
+            holder.buttonSubNotFound.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(ShopperMainActivity.this)
+                            .setTitle("Confirm")
+                            .setMessage("Mark substitute as not found?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Hide the substitute button layout and display status text with strike-through on item name.
+                                    holder.substituteLayout.setVisibility(View.GONE);
+                                    holder.textViewStatus.setVisibility(View.VISIBLE);
+                                    holder.textViewStatus.setText("Item not found");
+                                    holder.textViewStatus.setTextColor(android.graphics.Color.RED);
+                                    // Add strike-through effect to the item name.
+                                    holder.textViewItemName.setPaintFlags(holder.textViewItemName.getPaintFlags()
+                                            | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
+                                }
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
                 }
             });
         }
@@ -201,8 +265,8 @@ public class ShopperMainActivity extends AppCompatActivity {
         // ViewHolder inner class for item_shopper.xml
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView textViewItemName, textViewStatus;
-            Button buttonAvailable, buttonUnavailable;
-            LinearLayout buttonLayout;
+            Button buttonAvailable, buttonUnavailable, buttonSubFound, buttonSubNotFound;
+            LinearLayout buttonLayout, substituteLayout;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -211,6 +275,9 @@ public class ShopperMainActivity extends AppCompatActivity {
                 buttonAvailable = itemView.findViewById(R.id.buttonAvailable);
                 buttonUnavailable = itemView.findViewById(R.id.buttonUnavailable);
                 buttonLayout = itemView.findViewById(R.id.buttonLayout);
+                substituteLayout = itemView.findViewById(R.id.substituteLayout);
+                buttonSubFound = itemView.findViewById(R.id.buttonSubFound);
+                buttonSubNotFound = itemView.findViewById(R.id.buttonSubNotFound);
             }
         }
     }
