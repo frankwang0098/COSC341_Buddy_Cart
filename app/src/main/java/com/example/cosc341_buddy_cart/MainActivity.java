@@ -12,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewItems;
 
     private ArrayList<GroceryItem> groceryItems;
+    private ArrayList<GroceryItem> groceryItemsFull;
+
     private GroceryAdapter groceryAdapter;
 
     // Global grocery list (for search action) and cart count (unused now).
@@ -91,8 +95,28 @@ public class MainActivity extends AppCompatActivity {
         groceryAdapter = new GroceryAdapter();
         recyclerViewItems.setAdapter(groceryAdapter);
 
+        groceryItemsFull = new ArrayList<>(groceryItems);
+
         // This is just for initializing the database.
         //writeToFirebase();
+
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No action needed here.
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // As text changes, filter the list
+                filterItems(s.toString().trim().toLowerCase());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No additional action needed here.
+            }
+        });
 
         // Set up Category/Brand/Dietary buttons with custom toasts
         buttonCategory.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +188,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Update the cart count (total number of items) initially.
         updateCartSummary();
+    }
+
+    private void filterItems(String searchText) {
+        ArrayList<GroceryItem> filteredList = new ArrayList<>();
+        if(searchText.isEmpty()){
+            filteredList.addAll(groceryItemsFull);
+        } else {
+            for (GroceryItem item : groceryItemsFull) {
+                if (item.getName().toLowerCase().contains(searchText)) {
+                    filteredList.add(item);
+                }
+            }
+        }
+        groceryItems.clear();
+        groceryItems.addAll(filteredList);
+        groceryAdapter.notifyDataSetChanged();
     }
 
     // Update the cart count to show only the total number of items. Also update data in FireBase
