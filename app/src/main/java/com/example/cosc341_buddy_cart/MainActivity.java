@@ -26,6 +26,10 @@ import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -83,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
         groceryAdapter = new GroceryAdapter();
         recyclerViewItems.setAdapter(groceryAdapter);
+
+        writeToFirebase();
 
         // Set up Category/Brand/Dietary buttons with custom toasts
         buttonCategory.setOnClickListener(new View.OnClickListener() {
@@ -157,13 +163,20 @@ public class MainActivity extends AppCompatActivity {
         updateCartSummary();
     }
 
-    // Update the cart count to show only the total number of items.
+    // Update the cart count to show only the total number of items. Also update data in FireBase
     private void updateCartSummary() {
         int total = 0;
         for (GroceryItem item : groceryItems) {
             total += item.getQuantity();
         }
         textViewCartCount.setText(String.valueOf(total));
+        writeToFirebase();
+    }
+
+    // this is for updating the firebase database
+    private void writeToFirebase(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference("groceryItems");
+        root.setValue(groceryItems);
     }
 
     // Hamburger popup menu.
@@ -300,6 +313,8 @@ public class MainActivity extends AppCompatActivity {
         private String name;
         private int quantity;
         private double price;
+
+        public GroceryItem() { }
 
         // Update constructor to accept a price.
         GroceryItem(String name, double price) {
