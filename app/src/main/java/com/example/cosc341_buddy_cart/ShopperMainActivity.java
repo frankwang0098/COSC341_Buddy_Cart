@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.InputType;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -137,6 +139,7 @@ public class ShopperMainActivity extends AppCompatActivity {
         public boolean getNotFound() { return notFound; }
     }
 
+
     // Inner adapter class for the RecyclerView
     class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
 
@@ -161,6 +164,8 @@ public class ShopperMainActivity extends AppCompatActivity {
                 if (orderItem.notFound) {
                     holder.textViewStatus.setText("Item not found");
                     holder.textViewStatus.setTextColor(android.graphics.Color.RED);
+                    holder.textViewItemName.setPaintFlags(holder.textViewItemName.getPaintFlags()
+                            | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
                     holder.textViewStatus.setText("Item found");
                     holder.textViewStatus.setTextColor(android.graphics.Color.GREEN);
@@ -223,17 +228,9 @@ public class ShopperMainActivity extends AppCompatActivity {
             holder.buttonSubFound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialog.Builder(ShopperMainActivity.this)
-                            .setTitle("Confirm")
-                            .setMessage("Mark substitute as found?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(ShopperMainActivity.this, "Substitute found", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setNegativeButton("No", null)
-                            .show();
+                    int pos = holder.getAdapterPosition();
+                    if (pos == RecyclerView.NO_POSITION) return;
+                    showSubstituteFoundPopup(pos);
                 }
             });
 
@@ -270,6 +267,86 @@ public class ShopperMainActivity extends AppCompatActivity {
             });
 
         }
+
+        private void showSubstituteFoundPopup(final int orderPos) {
+            final OrderItem oldItem = orderItems.get(orderPos);
+            // Query Firebase for all grocery items (their names)
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("groceryItems");
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    final ArrayList<String> names = new ArrayList<>();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        // Assuming your GroceryItem class has a getName() method
+                        OrderItem item = snapshot.getValue(OrderItem.class);
+                        if (item != null && item.getName() != null) {
+                            names.add(item.getName());
+                        }
+                    }
+                    if(names.isEmpty()){
+                        Toast.makeText(ShopperMainActivity.this, "No substitute items available", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    final String[] itemsArray = names.toArray(new String[0]);
+                    new AlertDialog.Builder(ShopperMainActivity.this)
+                            .setTitle("Select Substitute Item")
+                            .setItems(itemsArray, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    final String selectedItemName = itemsArray[which];
+                                    // Prompt for quantity
+                                    final EditText quantityInput = new EditText(ShopperMainActivity.this);
+                                    quantityInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                    new AlertDialog.Builder(ShopperMainActivity.this)
+                                            .setTitle("Enter Quantity")
+                                            .setView(quantityInput)
+                                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog2, int which2) {
+                                                    String qtyStr = quantityInput.getText().toString();
+                                                    int qty = 0;
+                                                    try {
+                                                        qty = Integer.parseInt(qtyStr);
+                                                    } catch (NumberFormatException e) {
+                                                        qty = 0;
+                                                    }
+                                                    if(qty > 0){
+                                                        // Mark the old item as not found
+                                                        oldItem.notFound = true;
+                                                        oldItem.isCompleted = true;
+                                                        // Check if the substitute already exists in the order list
+                                                        boolean found = false;
+                                                        for(OrderItem oi : orderItems){
+                                                            if(oi.name.equals(selectedItemName)){
+                                                                oi.quantity += qty;
+                                                                found = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(!found){
+                                                            orderItems.add(new OrderItem(selectedItemName, qty));
+                                                        }
+                                                        notifyDataSetChanged();
+                                                        Toast.makeText(ShopperMainActivity.this, "Substitute added", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        Toast.makeText(ShopperMainActivity.this, "Invalid quantity", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            })
+                                            .setNegativeButton("Cancel", null)
+                                            .show();
+                                }
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
+                }
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    Toast.makeText(ShopperMainActivity.this, "Error loading items", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
 
         @Override
         public int getItemCount() {
