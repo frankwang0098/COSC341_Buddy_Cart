@@ -41,10 +41,10 @@ public class ShopperMainActivity extends AppCompatActivity {
 
         // Initialize order items list (for demo purposes)
         orderItems = new ArrayList<>();
-        //orderItems.add(new OrderItem("Milk"));
-        //orderItems.add(new OrderItem("Bread"));
-        //orderItems.add(new OrderItem("Eggs"));
-        //orderItems.add(new OrderItem("Cheese"));
+        orderItems.add(new OrderItem("Milk"));
+        orderItems.add(new OrderItem("Bread"));
+        orderItems.add(new OrderItem("Eggs"));
+        orderItems.add(new OrderItem("Cheese"));
 
         // Toggle visibility based on whether there are orders
         updateOrderListVisibility();
