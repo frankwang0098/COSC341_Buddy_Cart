@@ -55,39 +55,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instructiontext" />
 
-    <Button
-        android:id="@+id/prioritybutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Priority"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.094"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deliveryoptiontext" />
-
-    <Button
-        android:id="@+id/nowbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Now"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deliveryoptiontext" />
-
-    <Button
-        android:id="@+id/schedulebutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Schedule"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deliveryoptiontext" />
-
     <TextView
         android:id="@+id/paywith"
         android:layout_width="wrap_content"
@@ -173,12 +140,11 @@
         android:id="@+id/itemdropdown"
         android:layout_width="353dp"
         android:layout_height="37dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:entries="@array/cartexample"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.586"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nowbutton" />
+        app:layout_constraintTop_toBottomOf="@+id/deliverygroup" />
 
     <ImageButton
         android:id="@+id/instructionbutton"
@@ -190,5 +156,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deliverytext"
         app:srcCompat="@drawable/next_icon" />
+
+    <RadioGroup
+        android:id="@+id/deliverygroup"
+        android:layout_width="341dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.382"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deliveryoptiontext">
+
+        <RadioButton
+            android:id="@+id/prioritybutton"
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:text="Priority" />
+
+        <RadioButton
+            android:id="@+id/nowbutton"
+            android:layout_width="107dp"
+            android:layout_height="wrap_content"
+            android:text="Now" />
+
+        <RadioButton
+            android:id="@+id/schedulebutton"
+            android:layout_width="119dp"
+            android:layout_height="wrap_content"
+            android:text="Schedule" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

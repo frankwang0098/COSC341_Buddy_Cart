@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,9 +27,9 @@ public class CartActivity extends AppCompatActivity {
 
         TextView instructionText = findViewById(R.id.instructiontext);
 
-        Button priorityButton = findViewById(R.id.prioritybutton);
-        Button nowButton = findViewById(R.id.nowbutton);
-        Button scheduleButton = findViewById(R.id.schedulebutton);
+        RadioButton priorityButton = findViewById(R.id.prioritybutton);
+        RadioButton nowButton = findViewById(R.id.nowbutton);
+        RadioButton scheduleButton = findViewById(R.id.schedulebutton);
         Button orderButton = findViewById(R.id.orderbutton);
 
         ImageButton paymentbutton = findViewById(R.id.paymentbutton);
