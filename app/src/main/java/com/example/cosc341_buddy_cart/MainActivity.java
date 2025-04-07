@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.graphics.Color;
@@ -281,8 +283,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Button buttonCartHome = popupView.findViewById(R.id.buttonCartHome);
-        Button buttonCartShop = popupView.findViewById(R.id.buttonCartShop);
+        Button buttonClearCart = popupView.findViewById(R.id.buttonClearCart);  // New Clear Cart button
         Button buttonCartLogout = popupView.findViewById(R.id.buttonCartLogout);
+
         buttonCartHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -290,13 +293,34 @@ public class MainActivity extends AppCompatActivity {
                 popupWindow.dismiss();
             }
         });
-        buttonCartShop.setOnClickListener(new View.OnClickListener() {
+
+        // Set up Clear Cart button with confirmation prompt
+        buttonClearCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Shop clicked", Toast.LENGTH_SHORT).show();
-                popupWindow.dismiss();
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Clear Cart")
+                        .setMessage("Are you sure you want to clear the cart?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Clear the cart: set all grocery items' quantity to 0
+                                for (GroceryItem item : groceryItems) {
+                                    item.decrement();  // or set directly: item.quantity = 0;
+                                    // For clarity, let's set quantity to 0:
+                                    item.quantity = 0;
+                                }
+                                writeToFirebase();
+                                updateCartSummary();
+                                groceryAdapter.notifyDataSetChanged();
+                                popupWindow.dismiss();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
+
         buttonCartLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -305,8 +329,10 @@ public class MainActivity extends AppCompatActivity {
                 System.exit(0);
             }
         });
+
         popupWindow.showAsDropDown(cartIcon, 0, 0);
     }
+
 
 
     // GroceryItem model.
