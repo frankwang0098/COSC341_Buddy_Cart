@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         // This is just for initializing the database.
         //writeToFirebase();
+        //writeCurrentItemsToFirebase();
 
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -156,11 +157,14 @@ public class MainActivity extends AppCompatActivity {
         buttonCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Write the current items to the "currentItems" node
+                writeCurrentItemsToFirebase();
                 showCustomToast(R.drawable.checkout, "Checkout clicked");
                 Intent intent = new Intent(MainActivity.this, CartActivity.class);
                 startActivity(intent);
             }
         });
+
 
         // Hamburger icon: show popup menu.
         hamburgerIcon.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
             total += item.getQuantity();
         }
         textViewCartCount.setText(String.valueOf(total));
-        writeToFirebase();
     }
 
     // this is for updating the firebase database
@@ -221,6 +224,12 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference root = FirebaseDatabase.getInstance().getReference("groceryItems");
         root.setValue(groceryItems);
     }
+
+    private void writeCurrentItemsToFirebase() {
+        DatabaseReference currentRef = FirebaseDatabase.getInstance().getReference("currentItems");
+        currentRef.setValue(groceryItems);
+    }
+
 
     // Hamburger popup menu.
     private void showHamburgerMenu(View anchor) {
@@ -348,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
                                     item.decrement();
                                     item.quantity = 0;
                                 }
-                                writeToFirebase();
+                                writeCurrentItemsToFirebase();
                                 updateCartSummary();
                                 groceryAdapter.notifyDataSetChanged();
                                 popupWindow.dismiss();
