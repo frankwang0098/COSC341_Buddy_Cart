@@ -35,7 +35,6 @@ public class StartingScreen extends AppCompatActivity {
             public void onClick(View v) {
                 //create intent to start MainActivity
                 Intent intent = new Intent(StartingScreen.this, MainActivity.class);
-
                 startActivity(intent);
             }
         });
