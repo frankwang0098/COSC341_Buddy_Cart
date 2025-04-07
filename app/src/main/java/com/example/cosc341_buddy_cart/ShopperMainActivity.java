@@ -270,20 +270,33 @@ public class ShopperMainActivity extends AppCompatActivity {
 
         private void showSubstituteFoundPopup(final int orderPos) {
             final OrderItem oldItem = orderItems.get(orderPos);
-            // Query Firebase for all grocery items (their names)
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("groceryItems");
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     final ArrayList<String> names = new ArrayList<>();
+                    // Iterate through all grocery items in Firebase
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        // Assuming your GroceryItem class has a getName() method
                         OrderItem item = snapshot.getValue(OrderItem.class);
                         if (item != null && item.getName() != null) {
-                            names.add(item.getName());
+                            // Filter out the item that's being substituted
+                            if (item.getName().equals(oldItem.getName())) {
+                                continue;
+                            }
+                            // Filter out any item that is already marked as not found in orderItems
+                            boolean alreadyNotFound = false;
+                            for (OrderItem oi : orderItems) {
+                                if (oi.getName().equals(item.getName()) && oi.getNotFound()) {
+                                    alreadyNotFound = true;
+                                    break;
+                                }
+                            }
+                            if (!alreadyNotFound) {
+                                names.add(item.getName());
+                            }
                         }
                     }
-                    if(names.isEmpty()){
+                    if (names.isEmpty()) {
                         Toast.makeText(ShopperMainActivity.this, "No substitute items available", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -294,7 +307,6 @@ public class ShopperMainActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     final String selectedItemName = itemsArray[which];
-                                    // Prompt for quantity
                                     final EditText quantityInput = new EditText(ShopperMainActivity.this);
                                     quantityInput.setInputType(InputType.TYPE_CLASS_NUMBER);
                                     new AlertDialog.Builder(ShopperMainActivity.this)
@@ -310,20 +322,20 @@ public class ShopperMainActivity extends AppCompatActivity {
                                                     } catch (NumberFormatException e) {
                                                         qty = 0;
                                                     }
-                                                    if(qty > 0){
-                                                        // Mark the old item as not found
+                                                    if (qty > 0) {
+                                                        // Mark the old item as not found (and complete)
                                                         oldItem.notFound = true;
                                                         oldItem.isCompleted = true;
-                                                        // Check if the substitute already exists in the order list
+                                                        // Check if the substitute already exists in the order list.
                                                         boolean found = false;
-                                                        for(OrderItem oi : orderItems){
-                                                            if(oi.name.equals(selectedItemName)){
+                                                        for (OrderItem oi : orderItems) {
+                                                            if (oi.getName().equals(selectedItemName)) {
                                                                 oi.quantity += qty;
                                                                 found = true;
                                                                 break;
                                                             }
                                                         }
-                                                        if(!found){
+                                                        if (!found) {
                                                             orderItems.add(new OrderItem(selectedItemName, qty));
                                                         }
                                                         notifyDataSetChanged();
@@ -346,6 +358,7 @@ public class ShopperMainActivity extends AppCompatActivity {
                 }
             });
         }
+
 
 
         @Override

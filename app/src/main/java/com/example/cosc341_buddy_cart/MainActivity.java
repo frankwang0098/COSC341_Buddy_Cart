@@ -326,8 +326,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                finishAffinity();
-                System.exit(0);
+                //finishAffinity();
+                finish();
             }
         });
 
