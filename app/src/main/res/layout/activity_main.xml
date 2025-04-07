@@ -7,755 +7,263 @@ Displays 3x3 grid of grocery items with interactive minus/plus options
 bottom has quick logout, review order, and checkout options
 all buttons use a toast if not linked to a page-->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="40dp"
     android:paddingLeft="20dp"
+    android:paddingTop="40dp"
     tools:context=".MainActivity">
 
     <!-- First Row has Logo  -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/imageViewLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo"
-            android:contentDescription="Logo" />
+    <!-- Second row has Hamburger, Search Field, Barcode, Cart -->
+
+    <!-- Third row: Category/Brand/Dietary Buttons -->
+
+    <!-- Fourth row: Search Result TextView -->
+
+    <!-- Replace the existing gridItems section with a RecyclerView -->
+
+    <!-- Sixth row: Bottom Buttons -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="394dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/textViewSlogan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:text="BuddyCart: Shop Smart, Live Easy"
-            android:textSize="16sp"
             android:textColor="@android:color/black"
-            android:layout_marginStart="15dp" />
-    </LinearLayout>
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.688"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.333" />
 
-    <!-- Second row has Hamburger, Search Field, Barcode, Cart -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        <ImageView
+            android:id="@+id/imageViewLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Logo"
+            android:src="@drawable/logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textViewSlogan"
+            app:layout_constraintHorizontal_bias="0.176"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Hamburger Icon -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewItems"
+        android:layout_width="347dp"
+        android:layout_height="459dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.276"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+        app:layout_constraintVertical_bias="0.061" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="395dp"
+        android:layout_height="62dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.916"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+        app:layout_constraintVertical_bias="0.015">
+
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="186dp"
+            android:layout_height="45dp"
+            android:hint="Search for groceries"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewCart"
+            app:layout_constraintHorizontal_bias="0.398"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/imageViewHamburger"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="16dp"
             android:contentDescription="Menu"
-            android:src="@drawable/hamburger" />
+            android:src="@drawable/hamburger"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/editTextSearch"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.6" />
 
-        <!-- Search Field (not visible yet) -->
-        <EditText
-            android:id="@+id/editTextSearch"
-            android:layout_width="0dp"
+        <ImageView
+            android:id="@+id/imageViewCart"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="Cart"
+            android:src="@drawable/cart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.956"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.466" />
+
+        <TextView
+            android:id="@+id/textViewCartCount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Search for groceries"
-            android:imeOptions="actionSearch"
-            android:singleLine="true" />
+            android:background="@android:color/white"
+            android:text="0"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewCart"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewCart"
+            app:layout_constraintHorizontal_bias="0.487"
+            app:layout_constraintStart_toStartOf="@+id/imageViewCart"
+            app:layout_constraintTop_toTopOf="@+id/imageViewCart" />
 
-        <!-- Barcode Icon -->
-        <!--Chantal: I struggle with the text field so have adjusted margins here for now-->
         <ImageView
             android:id="@+id/imageViewBarcode"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="20dp"
             android:contentDescription="Barcode"
-            android:src="@drawable/barcode" />
+            android:src="@drawable/barcode"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewCart"
+            app:layout_constraintStart_toEndOf="@+id/editTextSearch"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Cart Icon -->
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/imageViewCart"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/cart"
-                android:contentDescription="Cart" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/textViewCartCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@android:color/white"
-                android:text="0"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <!-- Third row: Category/Brand/Dietary Buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
-        <Button
-            android:id="@+id/buttonCategory"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Category"
-            android:textSize="12sp"
-            android:padding="4dp"
-            android:layout_margin="4dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="403dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.833"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintVertical_bias="0.024">
 
         <Button
             android:id="@+id/buttonBrand"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:padding="4dp"
             android:text="Brand"
             android:textSize="12sp"
-            android:padding="4dp"
-            android:layout_margin="4dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/buttonDiet"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:padding="4dp"
             android:text="Dietary"
             android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.238"
+            app:layout_constraintStart_toEndOf="@+id/buttonBrand"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonCategory"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:padding="4dp"
-            android:layout_margin="4dp" />
-    </LinearLayout>
+            android:text="Category"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonBrand"
+            app:layout_constraintHorizontal_bias="0.717"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Fourth row: Search Result TextView -->
-    <TextView
-        android:id="@+id/textViewSearchResult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:text=""/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Fifth row: Scrollable 3x3 Grid of Items -->
-    <!-- Using height 0dp with weight=1 so this area fills available space -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="8dp">
-        <GridLayout
-            android:id="@+id/gridItems"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="3"
-            android:useDefaultMargins="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="403dp"
+        android:layout_height="57dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewItems"
+        app:layout_constraintVertical_bias="0.413">
 
-            <!-- Item 1: Bread -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_columnWeight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:tag="bread">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/placeholder_image" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$3.49"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="bread"
-                    android:textSize="12sp"
-                    android:gravity="center" />
-                <!-- Quantity controls -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="4dp">
-                    <Button
-                        android:id="@+id/buttonBreadMinus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="−"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                    <TextView
-                        android:id="@+id/textBreadQuantity"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:background="@android:color/white"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp" />
-                    <Button
-                        android:id="@+id/buttonBreadPlus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="+"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Item 2: Dozen Eggs -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_columnWeight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:tag="dozen eggs">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/placeholder_image" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$4.29"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="dozen eggs"
-                    android:textSize="12sp"
-                    android:gravity="center" />
-                <!-- Quantity controls -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="4dp">
-                    <Button
-                        android:id="@+id/buttonEggsMinus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="−"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                    <TextView
-                        android:id="@+id/textEggsQuantity"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:background="@android:color/white"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp" />
-                    <Button
-                        android:id="@+id/buttonEggsPlus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="+"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Item 3: Milk -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_columnWeight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:tag="milk">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/placeholder_image" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$2.99"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-                <TextView
-                    android:id="@+id/textMilkLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="milk"
-                    android:textSize="12sp"
-                    android:gravity="center" />
-                <!-- Quantity controls -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="4dp">
-                    <Button
-                        android:id="@+id/buttonMilkMinus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="−"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                    <TextView
-                        android:id="@+id/textMilkQuantity"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:background="@android:color/white"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp" />
-                    <Button
-                        android:id="@+id/buttonMilkPlus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="+"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Item 4: Cheddar Cheese -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_columnWeight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:tag="cheddar cheese">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/placeholder_image" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$5.99"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="cheddar cheese"
-                    android:textSize="12sp"
-                    android:gravity="center" />
-                <!-- Quantity controls -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="4dp">
-                    <Button
-                        android:id="@+id/buttonCheeseMinus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="−"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                    <TextView
-                        android:id="@+id/textCheeseQuantity"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:background="@android:color/white"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp" />
-                    <Button
-                        android:id="@+id/buttonCheesePlus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="+"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Item 5: Dog Food -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_columnWeight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:tag="dog food">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/placeholder_image" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$25.99"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dog Food 18kg"
-                    android:textSize="12sp"
-                    android:gravity="center" />
-                <!-- Quantity controls -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="4dp">
-                    <Button
-                        android:id="@+id/buttonDogFoodMinus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="−"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                    <TextView
-                        android:id="@+id/textDogFoodQuantity"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:background="@android:color/white"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp" />
-                    <Button
-                        android:id="@+id/buttonDogFoodPlus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="+"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Item 6: Chocolate Bar -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_columnWeight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:tag="chocolate bar">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/placeholder_image" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$1.50"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="chocolate bar"
-                    android:textSize="12sp"
-                    android:gravity="center" />
-                <!-- Quantity controls -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="4dp">
-                    <Button
-                        android:id="@+id/buttonChocoMinus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="−"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                    <TextView
-                        android:id="@+id/textChocoQuantity"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:background="@android:color/white"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp" />
-                    <Button
-                        android:id="@+id/buttonChocoPlus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="+"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Item 7: Hand Soap -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_columnWeight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:tag="hand soap">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/placeholder_image" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$2.29"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="hand soap"
-                    android:textSize="12sp"
-                    android:gravity="center" />
-                <!-- Quantity controls -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="4dp">
-                    <Button
-                        android:id="@+id/buttonSoapMinus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="−"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                    <TextView
-                        android:id="@+id/textSoapQuantity"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:background="@android:color/white"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp" />
-                    <Button
-                        android:id="@+id/buttonSoapPlus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="+"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Item 8: Chicken -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_columnWeight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:tag="chicken">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/placeholder_image" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$8.99"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="chicken"
-                    android:textSize="12sp"
-                    android:gravity="center" />
-                <!-- Quantity controls -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="4dp">
-                    <Button
-                        android:id="@+id/buttonChickenMinus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="−"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                    <TextView
-                        android:id="@+id/textChickenQuantity"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:background="@android:color/white"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp" />
-                    <Button
-                        android:id="@+id/buttonChickenPlus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="+"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Item 9: Dish Soap -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_columnWeight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:tag="dish soap">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/placeholder_image" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$2.99"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:gravity="center" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="dish soap"
-                    android:textSize="12sp"
-                    android:gravity="center" />
-                <!-- Quantity controls -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="4dp">
-                    <Button
-                        android:id="@+id/buttonDishSoapMinus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="−"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                    <TextView
-                        android:id="@+id/textDishSoapQuantity"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="0"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:background="@android:color/white"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp" />
-                    <Button
-                        android:id="@+id/buttonDishSoapPlus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:text="+"
-                        android:textSize="20sp"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#9370DB" />
-                </LinearLayout>
-            </LinearLayout>
-
-        </GridLayout>
-    </ScrollView>
-
-    <!-- Sixth row: Bottom Buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="40dp">
-        <Button
-            android:id="@+id/buttonLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp" />
-        <Button
-            android:id="@+id/buttonReviewOrder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Review Order"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="10dp" />
         <Button
             android:id="@+id/buttonCheckout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="7dp"
             android:text="Checkout"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="15dp" />
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.348"
+            app:layout_constraintStart_toEndOf="@+id/buttonReviewOrder"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="7dp"
+            android:text="Logout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonReviewOrder"
+            app:layout_constraintHorizontal_bias="0.634"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/buttonReviewOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="7dp"
+            android:text="Review Order"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

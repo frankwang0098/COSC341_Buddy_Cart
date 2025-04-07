@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         barcodeIcon = findViewById(R.id.imageViewBarcode);
         cartIcon = findViewById(R.id.imageViewCart);
         searchField = findViewById(R.id.editTextSearch);
-        textViewSearchResult = findViewById(R.id.textViewSearchResult);
+        //textViewSearchResult = findViewById(R.id.textViewSearchResult);
         textViewCartCount = findViewById(R.id.textViewCartCount);
 
         buttonCategory = findViewById(R.id.buttonCategory);
@@ -131,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
+
         // Search field: process query on "Search" or "Done".
         searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -153,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
 
         setupQuantityListeners();
     }
+
+         */
+
+    /*
 
     // Highlight grid items whose tag matches the search query.
     private void highlightMatchingItems(String query) {
@@ -423,6 +429,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+     */
     }
 
     private void updateCartCount() {
