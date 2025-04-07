@@ -86,7 +86,7 @@ public class ShopperMainActivity extends AppCompatActivity {
 
                 boolean allComplete = true;
                 for (OrderItem item : orderItems) {
-                    if (!item.isCompleted) {
+                    if (!(item.isCompleted || item.notFound)) {
                         allComplete = false;
                         break;
                     }
@@ -118,21 +118,23 @@ public class ShopperMainActivity extends AppCompatActivity {
         public String name;
         public int quantity;
         public boolean isCompleted;
+        public boolean notFound;  // New flag
 
         // Default constructor required for Firebase deserialization
         public OrderItem() { }
 
-        // Constructor to set name and quantity; isCompleted defaults to false.
+        // Constructor to set name and quantity; defaults are false.
         public OrderItem(String name, int quantity) {
             this.name = name;
             this.quantity = quantity;
             this.isCompleted = false;
+            this.notFound = false;
         }
 
-        // Getters (setters can be added if needed)
         public String getName() { return name; }
         public int getQuantity() { return quantity; }
         public boolean getIsCompleted() { return isCompleted; }
+        public boolean getNotFound() { return notFound; }
     }
 
     // Inner adapter class for the RecyclerView
@@ -156,9 +158,13 @@ public class ShopperMainActivity extends AppCompatActivity {
                 holder.buttonLayout.setVisibility(View.GONE);
                 holder.substituteLayout.setVisibility(View.GONE);
                 holder.textViewStatus.setVisibility(View.VISIBLE);
-                // If available was confirmed, status shows "Item found" in green.
-                holder.textViewStatus.setText("Item found");
-                holder.textViewStatus.setTextColor(android.graphics.Color.GREEN);
+                if (orderItem.notFound) {
+                    holder.textViewStatus.setText("Item not found");
+                    holder.textViewStatus.setTextColor(android.graphics.Color.RED);
+                } else {
+                    holder.textViewStatus.setText("Item found");
+                    holder.textViewStatus.setTextColor(android.graphics.Color.GREEN);
+                }
             } else {
                 holder.buttonLayout.setVisibility(View.VISIBLE);
                 holder.substituteLayout.setVisibility(View.GONE);
@@ -241,7 +247,7 @@ public class ShopperMainActivity extends AppCompatActivity {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // Hide the substitute button layout and display status text with strike-through on item name.
+                                    // Hide the substitute layout and display status text with strike-through on item name.
                                     holder.substituteLayout.setVisibility(View.GONE);
                                     holder.textViewStatus.setVisibility(View.VISIBLE);
                                     holder.textViewStatus.setText("Item not found");
@@ -249,12 +255,20 @@ public class ShopperMainActivity extends AppCompatActivity {
                                     // Add strike-through effect to the item name.
                                     holder.textViewItemName.setPaintFlags(holder.textViewItemName.getPaintFlags()
                                             | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
+                                    // Mark the item as "not found" (and complete)
+                                    int currentPos = holder.getAdapterPosition();
+                                    if (currentPos != RecyclerView.NO_POSITION) {
+                                        OrderItem currentItem = orderItems.get(currentPos);
+                                        currentItem.notFound = true;
+                                        currentItem.isCompleted = true; // Optional: so both flags indicate completion.
+                                    }
                                 }
                             })
                             .setNegativeButton("No", null)
                             .show();
                 }
             });
+
         }
 
         @Override
