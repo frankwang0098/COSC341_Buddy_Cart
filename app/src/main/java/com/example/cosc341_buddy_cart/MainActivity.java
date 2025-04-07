@@ -88,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
         groceryAdapter = new GroceryAdapter();
         recyclerViewItems.setAdapter(groceryAdapter);
 
-        writeToFirebase();
+        // This is just for initializing the database.
+        //writeToFirebase();
 
         // Set up Category/Brand/Dietary buttons with custom toasts
         buttonCategory.setOnClickListener(new View.OnClickListener() {
