@@ -42,9 +42,10 @@ public class StartingScreen extends AppCompatActivity {
         shopperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //create intent to start MainActivityShopper
-                //Intent intent = new Intent(StartingScreen.this, MainActivityShopper.class);
-                //startActivity(intent);
+                //create intent to start ShopperMainActivity
+                Intent intent = new Intent(StartingScreen.this, ShopperMainActivity.class);
+
+                startActivity(intent);
             }
         });
     }

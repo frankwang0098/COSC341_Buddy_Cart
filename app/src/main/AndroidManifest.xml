@@ -13,6 +13,9 @@
         android:theme="@style/Theme.BuddyCart"
         tools:targetApi="31">
         <activity
+            android:name=".ShopperMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".CurrentOrderActivity"
             android:exported="false" />
         <activity
