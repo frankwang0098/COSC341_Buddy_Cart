@@ -2,8 +2,9 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_cart_popup"
-    android:layout_width="wrap_content"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
+    android:minWidth="300dp"
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@android:drawable/dialog_holo_light_frame">
@@ -11,7 +12,7 @@
     <!--Chantal: I put Your cart is empty message for now as I need another one that would pop up if there are items in the cart-->
     <TextView
         android:id="@+id/textViewCartPopupMessage"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Your cart is empty"
         android:textSize="18sp"
