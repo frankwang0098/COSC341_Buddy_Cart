@@ -1,7 +1,7 @@
 package com.example.cosc341_buddy_cart;
 //Chantal's notes: This part of the BuddyCart app displays a 3x3 grid showing the idea of what item selections
 //would look like with cost and item name that could also include a brief description
-
+//Edited and Overhauled by Frank to work with Firebase
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

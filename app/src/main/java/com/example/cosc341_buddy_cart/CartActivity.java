@@ -1,5 +1,6 @@
 package com.example.cosc341_buddy_cart;
 // this part was done by Sarah it starts with the cart page and goes into two different pages that shows how a user can add in promo code and payment methods
+// edited by Frank
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
