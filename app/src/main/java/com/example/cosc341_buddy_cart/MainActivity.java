@@ -114,12 +114,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Logout button: exit the app.
+        // Logout button: exit to the starting screen.
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finishAffinity();
-                System.exit(0);
+                finish();
             }
         });
 
@@ -211,8 +210,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.menu_share_feedback) {
             showCustomToast(R.drawable.feedback, "Share Feedback clicked");
         } else if (id == R.id.menu_sign_out) {
-            finishAffinity();
-            System.exit(0);
+            finish();
         }
     }
 
@@ -307,8 +305,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Clear the cart: set all grocery items' quantity to 0
                                 for (GroceryItem item : groceryItems) {
-                                    item.decrement();  // or set directly: item.quantity = 0;
-                                    // For clarity, let's set quantity to 0:
+                                    item.decrement();
                                     item.quantity = 0;
                                 }
                                 writeToFirebase();

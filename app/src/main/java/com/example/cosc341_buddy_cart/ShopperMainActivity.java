@@ -95,11 +95,23 @@ public class ShopperMainActivity extends AppCompatActivity {
                 }
                 if (allComplete) {
                     Toast.makeText(ShopperMainActivity.this, "complete", Toast.LENGTH_SHORT).show();
+                    // Clear the cart: set all grocery items' quantity to 0
+                    for (OrderItem item : orderItems) {
+                        item.quantity = 0;
+                    }
+                    writeToFirebase();
+                    adapter.notifyDataSetChanged();
+                    finish();
                 } else {
                     Toast.makeText(ShopperMainActivity.this, "Orders not fully complete", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void writeToFirebase(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference("groceryItems");
+        root.setValue(orderItems);
     }
 
     // Helper method to toggle visibility based on order list state
