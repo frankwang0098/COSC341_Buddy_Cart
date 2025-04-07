@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "554577297460",
+    "project_id": "cosc341-buddy-cart",
+    "storage_bucket": "cosc341-buddy-cart.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554577297460:android:7ec22f268fdd05cfcb4a61",
+        "android_client_info": {
+          "package_name": "com.example.cosc341_buddy_cart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmlj4YUO5SaHfNEreEjsnrJnoNIgUtZ3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
