@@ -1,33 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App Name -->
-    <string name="app_name">BuddyCart</string>
-    <string name="logo_desc">BuddyCart Logo</string>
-    <string name="menu_desc">Menu</string>
-    <string name="barcode_desc">Barcode Scanner</string>
-    <string name="cart_desc">Shopping Cart</string>
+    <string name="app_name">COSC341_Buddy_Cart</string>
+    <string-array name="cartexample">
+        <item>Cart Breakdown       </item>
+        <item>5 items              </item>
+        <item>x1 Dog Food    $25.99</item>
+        <item>x1 Chicken     $8.99 </item>
+        <item>x2 Dozen eggs  $8.58 </item>
+        <item>x2 Bread       $6.98 </item>
+        <item>SubTotal       $77.12</item>
+        <item>Taxes          $10.99</item>
+        <item>Delivery       $10.99</item>
+        <item>Total          $99.10</item>
 
-    <!-- Search field description -->
-    <string name="search_hint">Search for groceries</string>
+    </string-array>
 
-    <!--Filter by:-->
-    <string name="button_category">Category</string>
-    <string name="button_brand">Brand</string>
-    <string name="button_dietary">Dietary</string>
-
-    <!--Chantal: I put a placeholder for the times for now until this section is updated -->
-    <string name="placeholder_items">Groceries list goes here</string>
-
-    <!-- Bottom Buttons -->
-    <string name="button_logout">Logout</string>
-    <string name="button_review_order">Review Order</string>
-    <string name="button_checkout">Checkout</string>
-
-    <!--Chantal: as mentioned earlier all hamburger menu item selection click to a toast, except for the logout) -->
-    <string name="menu_my_account">My Account</string>
-    <string name="menu_my_cart">My Cart</string>
-    <string name="menu_favorites">Favorites</string>
-    <string name="menu_language">Language</string>
-    <string name="menu_share_feedback">Share Feedback</string>
-    <string name="menu_sign_out">Sign Out</string>
 </resources>

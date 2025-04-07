@@ -3,6 +3,8 @@ package com.example.cosc341_buddy_cart;
 //would look like with cost and item name that could also include a brief description
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.view.ContextThemeWrapper;
@@ -100,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showCustomToast(R.drawable.checkout, "Checkout clicked");
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                startActivity(intent);
             }
         });
 
