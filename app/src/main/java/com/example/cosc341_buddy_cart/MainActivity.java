@@ -73,10 +73,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize the grocery items list.
         groceryItems = new ArrayList<>();
-        groceryItems.add(new GroceryItem("Bread"));
-        groceryItems.add(new GroceryItem("Milk"));
-        groceryItems.add(new GroceryItem("Eggs"));
-        // Add more items if needed.
+        groceryItems.add(new GroceryItem("Bread", 2.49));
+        groceryItems.add(new GroceryItem("Milk", 7.49));
+        groceryItems.add(new GroceryItem("Eggs", 5.99));
+        groceryItems.add(new GroceryItem("Chocolate", 1.49));
+        groceryItems.add(new GroceryItem("Cheese", 6.99));
+        groceryItems.add(new GroceryItem("Chicken", 9.99));
+        groceryItems.add(new GroceryItem("Dish Soap", 3.49));
 
         groceryAdapter = new GroceryAdapter();
         recyclerViewItems.setAdapter(groceryAdapter);
@@ -229,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Cart popup displays when the cart icon is clicked.
-    // It now shows a detailed list (e.g., "Bread x2") in the cart popup.
+    // It now shows a detailed list (e.g., "Bread x2") as well as its price in the cart popup.
     private void showCartPopup() {
         View popupView = LayoutInflater.from(this).inflate(R.layout.cart_popup, null);
         final PopupWindow popupWindow = new PopupWindow(
@@ -241,17 +244,25 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textViewCartPopupMessage = popupView.findViewById(R.id.textViewCartPopupMessage);
         StringBuilder details = new StringBuilder();
+        double grandTotal = 0.0;
         for (GroceryItem item : groceryItems) {
             if (item.getQuantity() > 0) {
+                double itemTotal = item.getQuantity() * item.getPrice();
+                grandTotal += itemTotal;
+                // Format each line so the total price appears on the right.
                 details.append(item.getName())
                         .append(" x")
                         .append(item.getQuantity())
+                        .append("       $")
+                        .append(String.format("%.2f", itemTotal))
                         .append("\n");
             }
         }
         if (details.length() == 0) {
             textViewCartPopupMessage.setText("Your cart is empty");
         } else {
+            // Append a final line with the grand total.
+            details.append("\nTotal: $").append(String.format("%.2f", grandTotal));
             textViewCartPopupMessage.setText(details.toString().trim());
         }
 
@@ -283,18 +294,24 @@ public class MainActivity extends AppCompatActivity {
         popupWindow.showAsDropDown(cartIcon, 0, 0);
     }
 
+
     // GroceryItem model.
     class GroceryItem {
         private String name;
         private int quantity;
+        private double price;
 
-        GroceryItem(String name) {
+        // Update constructor to accept a price.
+        GroceryItem(String name, double price) {
             this.name = name;
+            this.price = price;
             this.quantity = 0;
         }
 
         public String getName() { return name; }
         public int getQuantity() { return quantity; }
+        public double getPrice() { return price; }
+
         public void increment() { quantity++; }
         public void decrement() { if (quantity > 0) quantity--; }
     }
@@ -313,6 +330,8 @@ public class MainActivity extends AppCompatActivity {
             GroceryItem item = groceryItems.get(position);
             holder.textViewItemName.setText(item.getName());
             holder.textViewQuantity.setText(String.valueOf(item.getQuantity()));
+            // Set the price text formatted as currency.
+            holder.textViewPrice.setText(String.format("$%.2f", item.getPrice()));
 
             // Plus button increases quantity.
             holder.buttonPlus.setOnClickListener(new View.OnClickListener() {
@@ -344,12 +363,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView textViewItemName, textViewQuantity;
+            TextView textViewItemName, textViewQuantity, textViewPrice;
             Button buttonPlus, buttonMinus;
             public ViewHolder(View itemView) {
                 super(itemView);
                 textViewItemName = itemView.findViewById(R.id.textViewItemName);
                 textViewQuantity = itemView.findViewById(R.id.textViewQuantity);
+                textViewPrice = itemView.findViewById(R.id.textViewPrice); // new
                 buttonPlus = itemView.findViewById(R.id.buttonPlus);
                 buttonMinus = itemView.findViewById(R.id.buttonMinus);
             }
