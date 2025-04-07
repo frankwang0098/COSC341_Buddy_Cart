@@ -46,7 +46,8 @@ public class CartActivity extends AppCompatActivity {
         });
         orderButton.setOnClickListener(view -> {
             Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
-            finish();
+            Intent intent = new Intent(CartActivity.this, CurrentOrderActivity.class);
+            startActivity(intent);
         });
         priorityButton.setOnClickListener(view -> {
             Toast.makeText(this, "Priority Delivery Selected", Toast.LENGTH_SHORT).show();
