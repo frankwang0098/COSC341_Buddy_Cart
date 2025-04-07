@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.graphics.Color;
@@ -26,6 +28,10 @@ import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -72,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewItems.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize the grocery items list.
+        // Spend a ton of time trying to pull the information from the database on launch. But ran into too many problems so will go for another method.
         groceryItems = new ArrayList<>();
         groceryItems.add(new GroceryItem("Bread", 2.49));
         groceryItems.add(new GroceryItem("Milk", 7.49));
@@ -83,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
 
         groceryAdapter = new GroceryAdapter();
         recyclerViewItems.setAdapter(groceryAdapter);
+
+        // This is just for initializing the database.
+        //writeToFirebase();
 
         // Set up Category/Brand/Dietary buttons with custom toasts
         buttonCategory.setOnClickListener(new View.OnClickListener() {
@@ -157,13 +167,20 @@ public class MainActivity extends AppCompatActivity {
         updateCartSummary();
     }
 
-    // Update the cart count to show only the total number of items.
+    // Update the cart count to show only the total number of items. Also update data in FireBase
     private void updateCartSummary() {
         int total = 0;
         for (GroceryItem item : groceryItems) {
             total += item.getQuantity();
         }
         textViewCartCount.setText(String.valueOf(total));
+        writeToFirebase();
+    }
+
+    // this is for updating the firebase database
+    private void writeToFirebase(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference("groceryItems");
+        root.setValue(groceryItems);
     }
 
     // Hamburger popup menu.
@@ -267,8 +284,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Button buttonCartHome = popupView.findViewById(R.id.buttonCartHome);
-        Button buttonCartShop = popupView.findViewById(R.id.buttonCartShop);
+        Button buttonClearCart = popupView.findViewById(R.id.buttonClearCart);  // New Clear Cart button
         Button buttonCartLogout = popupView.findViewById(R.id.buttonCartLogout);
+
         buttonCartHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -276,13 +294,34 @@ public class MainActivity extends AppCompatActivity {
                 popupWindow.dismiss();
             }
         });
-        buttonCartShop.setOnClickListener(new View.OnClickListener() {
+
+        // Set up Clear Cart button with confirmation prompt
+        buttonClearCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Shop clicked", Toast.LENGTH_SHORT).show();
-                popupWindow.dismiss();
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Clear Cart")
+                        .setMessage("Are you sure you want to clear the cart?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Clear the cart: set all grocery items' quantity to 0
+                                for (GroceryItem item : groceryItems) {
+                                    item.decrement();  // or set directly: item.quantity = 0;
+                                    // For clarity, let's set quantity to 0:
+                                    item.quantity = 0;
+                                }
+                                writeToFirebase();
+                                updateCartSummary();
+                                groceryAdapter.notifyDataSetChanged();
+                                popupWindow.dismiss();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
+
         buttonCartLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -291,8 +330,10 @@ public class MainActivity extends AppCompatActivity {
                 System.exit(0);
             }
         });
+
         popupWindow.showAsDropDown(cartIcon, 0, 0);
     }
+
 
 
     // GroceryItem model.
@@ -300,6 +341,8 @@ public class MainActivity extends AppCompatActivity {
         private String name;
         private int quantity;
         private double price;
+
+        public GroceryItem() { }
 
         // Update constructor to accept a price.
         GroceryItem(String name, double price) {

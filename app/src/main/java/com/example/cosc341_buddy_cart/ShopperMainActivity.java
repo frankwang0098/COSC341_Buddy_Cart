@@ -11,13 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -39,20 +41,37 @@ public class ShopperMainActivity extends AppCompatActivity {
         buttonCompleteOrder = findViewById(R.id.completeButton);
         textViewEmptyOrders = findViewById(R.id.textViewEmptyOrders);
 
-        // Initialize order items list (for demo purposes)
+        // Initialize the orderItems list
         orderItems = new ArrayList<>();
-        orderItems.add(new OrderItem("Milk"));
-        orderItems.add(new OrderItem("Bread"));
-        orderItems.add(new OrderItem("Eggs"));
-        orderItems.add(new OrderItem("Cheese"));
-
-        // Toggle visibility based on whether there are orders
-        updateOrderListVisibility();
 
         // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new OrderAdapter();
         recyclerView.setAdapter(adapter);
+
+        // Attach Firebase listener to load grocery items from the database
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference("groceryItems");
+        root.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                orderItems.clear();
+                // Iterate through each grocery item in the database
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    OrderItem item = snapshot.getValue(OrderItem.class);
+                    // Only add items with quantity > 0
+                    if (item != null && item.getQuantity() > 0) {
+                        orderItems.add(item);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                updateOrderListVisibility();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(ShopperMainActivity.this, "Error loading data", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Complete order button action
         buttonCompleteOrder.setOnClickListener(new View.OnClickListener() {
@@ -94,15 +113,26 @@ public class ShopperMainActivity extends AppCompatActivity {
         }
     }
 
-    // Inner class representing an order item
-    class OrderItem {
-        String name;
-        boolean isCompleted;
+    // OrderItem model with quantity included.
+    public static class OrderItem {
+        public String name;
+        public int quantity;
+        public boolean isCompleted;
 
-        OrderItem(String name) {
+        // Default constructor required for Firebase deserialization
+        public OrderItem() { }
+
+        // Constructor to set name and quantity; isCompleted defaults to false.
+        public OrderItem(String name, int quantity) {
             this.name = name;
+            this.quantity = quantity;
             this.isCompleted = false;
         }
+
+        // Getters (setters can be added if needed)
+        public String getName() { return name; }
+        public int getQuantity() { return quantity; }
+        public boolean getIsCompleted() { return isCompleted; }
     }
 
     // Inner adapter class for the RecyclerView
@@ -118,7 +148,8 @@ public class ShopperMainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             OrderItem orderItem = orderItems.get(position);
-            holder.textViewItemName.setText(orderItem.name);
+            // Display item name and quantity (e.g., "Bread x2")
+            holder.textViewItemName.setText(orderItem.name + " x" + orderItem.quantity);
 
             // Set up view based on the completion state
             if (orderItem.isCompleted) {
