@@ -105,7 +105,8 @@ public class ChatClient extends AppCompatActivity {
     orderButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            // Create intent for order status page
+            Intent intent = new Intent(ChatClient.this, CurrentOrderActivity.class);
+            startActivity(intent);
         }
     });
     }
