@@ -2,11 +2,13 @@ package com.example.cosc341_buddy_cart;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 
 public class ShopperMainActivity extends AppCompatActivity {
 
+    private ImageButton chatButton;
     private RecyclerView recyclerView;
     private Button buttonCompleteOrder;
     private TextView textViewEmptyOrders;
@@ -42,6 +45,7 @@ public class ShopperMainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         buttonCompleteOrder = findViewById(R.id.completeButton);
         textViewEmptyOrders = findViewById(R.id.textViewEmptyOrders);
+        chatButton = findViewById(R.id.chatButton);
 
         // Initialize the orderItems list
         orderItems = new ArrayList<>();
@@ -107,8 +111,18 @@ public class ShopperMainActivity extends AppCompatActivity {
                 }
             }
         });
+        // Go to chat client button
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle backBundle =  new Bundle();
+                backBundle.putString("BackPage", "Shopper");
+                Intent intent = new Intent(ShopperMainActivity.this, ChatClient.class);
+                intent.putExtras(backBundle);
+                startActivity(intent);
+            }
+        });
     }
-
     private void writeToFirebase(){
         DatabaseReference root = FirebaseDatabase.getInstance().getReference("groceryItems");
         root.setValue(orderItems);
@@ -120,10 +134,12 @@ public class ShopperMainActivity extends AppCompatActivity {
             recyclerView.setVisibility(View.GONE);
             textViewEmptyOrders.setVisibility(View.VISIBLE);
             buttonCompleteOrder.setVisibility(View.GONE);
+            chatButton.setVisibility(View.GONE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             textViewEmptyOrders.setVisibility(View.GONE);
             buttonCompleteOrder.setVisibility(View.VISIBLE);
+            chatButton.setVisibility(View.VISIBLE);
         }
     }
 

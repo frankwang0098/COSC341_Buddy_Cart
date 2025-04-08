@@ -21,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class ChatClient extends AppCompatActivity {
 
+    private TextView shopperName;
     private ImageButton backButton;
     private ImageButton attachmentButton;
     private ImageButton videoButton;
@@ -31,6 +32,7 @@ public class ChatClient extends AppCompatActivity {
     private EditText chatInput;
 
     private LinearLayout chatBox;
+    private String backPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +54,36 @@ public class ChatClient extends AppCompatActivity {
     orderButton = findViewById(R.id.chatOrderStatusButton);
     chatInput = findViewById(R.id.chatMessageInput);
     chatBox = findViewById(R.id.chatBox);
+    shopperName = findViewById(R.id.chatShopperName);
+
+
+    // Decides what page to send back to
+    backPage = getIntent().getExtras().getString("BackPage");
+
+    // Decides visibility of views based on user
+    switch (backPage) {
+        case "Shopper":
+            orderButton.setVisibility(View.GONE);
+            shopperButton.setVisibility(View.GONE);
+            shopperName.setVisibility(View.GONE);
+            break;
+        case "Buyer":
+            break;
+    }
 
     backButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             // Write code here to go back to whatever screen is decided upon
+            switch (backPage) {
+                case "Shopper":
+                    Intent i = new Intent(ChatClient.this, ShopperMainActivity.class);
+                    startActivity(i);
+                    break;
+                case "Buyer":
+//                    Intent i = new Intent(ChatClient.this,);
+                    break;
+            }
         }
     });
 
@@ -84,6 +111,7 @@ public class ChatClient extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(ChatClient.this, VideoClient.class);
+            intent.putExtras(getIntent().getExtras());
             startActivity(intent);
         }
     });
@@ -105,8 +133,8 @@ public class ChatClient extends AppCompatActivity {
     orderButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(ChatClient.this, CurrentOrderActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(ChatClient.this, CurrentOrderActivity.class);
+//            startActivity(intent);
         }
     });
     }

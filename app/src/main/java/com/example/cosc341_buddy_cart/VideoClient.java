@@ -42,7 +42,7 @@ public class VideoClient extends AppCompatActivity{
             public void onClick(View v) {
                 // Set intent to chat client
                 Intent intent = new Intent(VideoClient.this, ChatClient.class);
-
+                intent.putExtras(getIntent().getExtras());
                 startActivity(intent);
             }
         });
