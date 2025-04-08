@@ -1,6 +1,6 @@
 package com.example.cosc341_buddy_cart;
 // this part was done by Sarah it starts with the cart page and goes into two different pages that shows how a user can add in promo code and payment methods
-// edited by Frank
+// edited by Frank (Making a working Item Breakdown popup, other fixes, etc)
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -64,7 +64,7 @@ public class CartActivity extends AppCompatActivity {
                 for (DataSnapshot child : snapshot.getChildren()) {
                     GroceryItem item = child.getValue(GroceryItem.class);
                     // Only add items that actually have a name and quantity
-                    if (item != null && item.getName() != null && item.getQuantity() > 0) {
+                    if (item != null && item.getName() != null) {
                         cartItems.add(item);
                     }
                 }
@@ -80,13 +80,11 @@ public class CartActivity extends AppCompatActivity {
 
         backbutton.setOnClickListener(view -> {
             Toast.makeText(CartActivity.this, "Going back to shopping", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(CartActivity.this, MainActivity.class);
-            startActivity(intent);
+            finish();
         });
         orderButton.setOnClickListener(view -> {
+            writeToFirebase();
             Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
-            //Intent intent = new Intent(CartActivity.this, CurrentOrderActivity.class);
-            //startActivity(intent);
             finish();
         });
         priorityButton.setOnClickListener(view -> {
@@ -125,9 +123,13 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+    private void writeToFirebase(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference("groceryItems");
+        root.setValue(cartItems);
+    }
+
     private void showItemBreakdownPopup() {
-        // Inflate a simple popup layout. You could re-use the same cart_popup.xml layout
-        // or create a simpler layout named popup_item_breakdown.xml
+        // Inflate the same cart_popup.xml or a custom layout; you're reusing cart_popup.xml here.
         View popupView = LayoutInflater.from(this).inflate(R.layout.cart_popup, null);
 
         final PopupWindow popupWindow = new PopupWindow(
@@ -137,9 +139,11 @@ public class CartActivity extends AppCompatActivity {
                 true
         );
 
+        // Find your TextView to display item breakdown
         TextView textViewCartPopupMessage = popupView.findViewById(R.id.textViewCartPopupMessage);
+        Button itemBreakdownButton = findViewById(R.id.buttonItemBreakdown);
 
-        // Build your breakdown string (similar to MainActivity).
+        // Build the cart details string
         StringBuilder details = new StringBuilder();
         double grandTotal = 0.0;
         for (GroceryItem item : cartItems) {
@@ -161,7 +165,7 @@ public class CartActivity extends AppCompatActivity {
             textViewCartPopupMessage.setText(details.toString().trim());
         }
 
-        // Remove or hide the original buttons from cart_popup if you don’t want them.
+        // Hide the buttons
         Button buttonCartHome = popupView.findViewById(R.id.buttonCartHome);
         Button buttonClearCart = popupView.findViewById(R.id.buttonClearCart);
         Button buttonCartLogout = popupView.findViewById(R.id.buttonCartLogout);
@@ -169,8 +173,17 @@ public class CartActivity extends AppCompatActivity {
         buttonClearCart.setVisibility(View.GONE);
         buttonCartLogout.setVisibility(View.GONE);
 
-        // Show popup
-        popupWindow.showAtLocation(popupView, 0, 0, 0);
+        // Hide the icons too
+        View imageViewCartHome = popupView.findViewById(R.id.imageViewCartHome);
+        View imageViewClearCart = popupView.findViewById(R.id.imageViewClearCart);
+        View imageViewCartLogout = popupView.findViewById(R.id.imageViewCartLogout);
+        imageViewCartHome.setVisibility(View.GONE);
+        imageViewClearCart.setVisibility(View.GONE);
+        imageViewCartLogout.setVisibility(View.GONE);
+
+        // Finally, show the popup *near the Item Breakdown button*
+        // The first parameter is the anchor view, and 0,0 is the X/Y offset
+        popupWindow.showAsDropDown(itemBreakdownButton, -100, -200);
     }
 
     public static class GroceryItem {
