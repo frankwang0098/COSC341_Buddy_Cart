@@ -1,7 +1,7 @@
 package com.example.cosc341_buddy_cart;
 //Chantal's notes: This part of the BuddyCart app displays a 3x3 grid showing the idea of what item selections
 //would look like with cost and item name that could also include a brief description
-
+//Edited and Overhauled by Frank to work with Firebase (such as the add/removal of items, a working cart, other fixes, etc)
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewItems;
 
     private ArrayList<GroceryItem> groceryItems;
+    private ArrayList<GroceryItem> groceryItemsFull;
+
     private GroceryAdapter groceryAdapter;
 
     // Global grocery list (for search action) and cart count (unused now).
@@ -91,8 +95,29 @@ public class MainActivity extends AppCompatActivity {
         groceryAdapter = new GroceryAdapter();
         recyclerViewItems.setAdapter(groceryAdapter);
 
+        groceryItemsFull = new ArrayList<>(groceryItems);
+
         // This is just for initializing the database.
         //writeToFirebase();
+        //writeCurrentItemsToFirebase();
+
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No action needed here.
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // As text changes, filter the list
+                filterItems(s.toString().trim().toLowerCase());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No additional action needed here.
+            }
+        });
 
         // Set up Category/Brand/Dietary buttons with custom toasts
         buttonCategory.setOnClickListener(new View.OnClickListener() {
@@ -114,12 +139,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Logout button: exit the app.
+        // Logout button: exit to the starting screen.
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finishAffinity();
-                System.exit(0);
+                finish();
             }
         });
 
@@ -133,11 +157,14 @@ public class MainActivity extends AppCompatActivity {
         buttonCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Write the current items to the "currentItems" node
+                writeCurrentItemsToFirebase();
                 showCustomToast(R.drawable.checkout, "Checkout clicked");
                 Intent intent = new Intent(MainActivity.this, CartActivity.class);
                 startActivity(intent);
             }
         });
+
 
         // Hamburger icon: show popup menu.
         hamburgerIcon.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +194,22 @@ public class MainActivity extends AppCompatActivity {
         updateCartSummary();
     }
 
+    private void filterItems(String searchText) {
+        ArrayList<GroceryItem> filteredList = new ArrayList<>();
+        if(searchText.isEmpty()){
+            filteredList.addAll(groceryItemsFull);
+        } else {
+            for (GroceryItem item : groceryItemsFull) {
+                if (item.getName().toLowerCase().contains(searchText)) {
+                    filteredList.add(item);
+                }
+            }
+        }
+        groceryItems.clear();
+        groceryItems.addAll(filteredList);
+        groceryAdapter.notifyDataSetChanged();
+    }
+
     // Update the cart count to show only the total number of items. Also update data in FireBase
     private void updateCartSummary() {
         int total = 0;
@@ -174,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
             total += item.getQuantity();
         }
         textViewCartCount.setText(String.valueOf(total));
-        writeToFirebase();
     }
 
     // this is for updating the firebase database
@@ -182,6 +224,12 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference root = FirebaseDatabase.getInstance().getReference("groceryItems");
         root.setValue(groceryItems);
     }
+
+    private void writeCurrentItemsToFirebase() {
+        DatabaseReference currentRef = FirebaseDatabase.getInstance().getReference("currentItems");
+        currentRef.setValue(groceryItems);
+    }
+
 
     // Hamburger popup menu.
     private void showHamburgerMenu(View anchor) {
@@ -211,8 +259,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.menu_share_feedback) {
             showCustomToast(R.drawable.feedback, "Share Feedback clicked");
         } else if (id == R.id.menu_sign_out) {
-            finishAffinity();
-            System.exit(0);
+            finish();
         }
     }
 
@@ -307,11 +354,10 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Clear the cart: set all grocery items' quantity to 0
                                 for (GroceryItem item : groceryItems) {
-                                    item.decrement();  // or set directly: item.quantity = 0;
-                                    // For clarity, let's set quantity to 0:
+                                    item.decrement();
                                     item.quantity = 0;
                                 }
-                                writeToFirebase();
+                                writeCurrentItemsToFirebase();
                                 updateCartSummary();
                                 groceryAdapter.notifyDataSetChanged();
                                 popupWindow.dismiss();
@@ -326,8 +372,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                finishAffinity();
-                System.exit(0);
+                //finishAffinity();
+                finish();
             }
         });
 
