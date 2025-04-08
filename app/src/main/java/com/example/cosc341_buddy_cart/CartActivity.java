@@ -85,6 +85,8 @@ public class CartActivity extends AppCompatActivity {
         orderButton.setOnClickListener(view -> {
             writeToFirebase();
             Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CartActivity.this, StartingScreen.class);
+            startActivity(intent);
             finish();
         });
         priorityButton.setOnClickListener(view -> {
