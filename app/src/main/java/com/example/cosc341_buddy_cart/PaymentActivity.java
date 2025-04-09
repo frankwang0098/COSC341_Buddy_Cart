@@ -62,9 +62,13 @@ public class PaymentActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(postalcode) || postalcode.length() !=7) {
                     postalcodetext.setError("Enter a valid postal code");
                 }
-                Toast.makeText(PaymentActivity.this, "Card Saved Successfully", Toast.LENGTH_SHORT).show();
-                finishAffinity();
+                String lastFourDigits = number.substring(number.length() -4);
 
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("LAST_FOUR_CARD_DIGITS", lastFourDigits);
+                setResult(RESULT_OK, resultIntent);
+                Toast.makeText(PaymentActivity.this, "Card Saved Successfully", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
@@ -94,9 +98,5 @@ public class PaymentActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
     }
 }

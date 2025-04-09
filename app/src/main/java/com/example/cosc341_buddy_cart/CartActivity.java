@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,10 @@ import java.util.ArrayList;
 public class CartActivity extends AppCompatActivity {
 
     private ArrayList<GroceryItem> cartItems;
+    private static final int PROMO_REQUEST_CODE =100;
+    private static final int PAYMENT_REQUEST_CODE = 101;
+    private TextView promotext;
+    private TextView paymentText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +46,14 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         TextView instructionText = findViewById(R.id.instructiontext);
+        promotext = findViewById(R.id.promocodetext);
+        EditText addressText = findViewById(R.id.addresstext);
+        paymentText = findViewById(R.id.paymenttext);
 
         RadioButton priorityButton = findViewById(R.id.prioritybutton);
         RadioButton nowButton = findViewById(R.id.nowbutton);
         RadioButton scheduleButton = findViewById(R.id.schedulebutton);
+        RadioGroup deliveryoption =findViewById(R.id.deliverygroup);
         Button orderButton = findViewById(R.id.orderbutton);
 
         ImageButton paymentbutton = findViewById(R.id.paymentbutton);
@@ -83,11 +92,24 @@ public class CartActivity extends AppCompatActivity {
             finish();
         });
         orderButton.setOnClickListener(view -> {
-            writeToFirebase();
-            Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(CartActivity.this, StartingScreen.class);
-            startActivity(intent);
-            finish();
+            String address = addressText.getText().toString().trim();
+            String payment =paymentText.getText().toString().trim();
+            int selectedDeliveryId = deliveryoption.getCheckedRadioButtonId();
+
+            if (address.isEmpty()) {
+                Toast.makeText(this, "Please enter an address before placing the order", Toast.LENGTH_SHORT).show();
+            }  else if (payment.isEmpty() || payment.equalsIgnoreCase("Add Debit/Credit card")) {
+                Toast.makeText(this, "Please enter in your card information", Toast.LENGTH_SHORT).show();
+            } else if (selectedDeliveryId == -1) {
+                Toast.makeText(this, "Please select a delivery option", Toast.LENGTH_SHORT).show();
+            }
+                else {
+                writeToFirebase();
+                Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CartActivity.this, StartingScreen.class);
+                startActivity(intent);
+                finish();
+            }
         });
         priorityButton.setOnClickListener(view -> {
             Toast.makeText(this, "Priority Delivery Selected", Toast.LENGTH_SHORT).show();
@@ -101,11 +123,11 @@ public class CartActivity extends AppCompatActivity {
 
         paymentbutton.setOnClickListener(view ->{
             Intent intent = new Intent(CartActivity.this, SavedPaymentMethod.class);
-            startActivity(intent);
+            startActivityForResult(intent, PAYMENT_REQUEST_CODE);
         });
         promoCodebutton.setOnClickListener(view -> {
             Intent intent = new Intent(CartActivity.this, PromoCodeActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, PROMO_REQUEST_CODE);
         });
 
         instructionbutton.setOnClickListener(view -> {
@@ -123,6 +145,21 @@ public class CartActivity extends AppCompatActivity {
             builder.show();
         });
 
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PROMO_REQUEST_CODE && resultCode == RESULT_OK){
+            String selectedPromo = data.getStringExtra("SELECTED_PROMO");
+            if(selectedPromo != null && !selectedPromo.isEmpty()) {
+                promotext.setText(selectedPromo + " APPLIED");
+            }
+        }
+        if (requestCode == PAYMENT_REQUEST_CODE && resultCode == RESULT_OK) {
+            String lastFourDigits = data.getStringExtra("LAST_FOUR_CARD_DIGITS");
+            if (lastFourDigits != null && !lastFourDigits.isEmpty()) {
+                paymentText.setText( "*"+ lastFourDigits + " card used");
+            }
+        }
     }
 
     private void writeToFirebase(){
