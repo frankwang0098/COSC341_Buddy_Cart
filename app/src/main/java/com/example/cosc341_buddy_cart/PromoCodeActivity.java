@@ -1,6 +1,7 @@
 package com.example.cosc341_buddy_cart;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -48,16 +49,19 @@ public class PromoCodeActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-        saveRedeembutton.setOnClickListener(v-> {
-            String promocode =promoInput.getText().toString().trim();
-            if(promocode.isEmpty()){
+        saveRedeembutton.setOnClickListener(v -> {
+            String promocode = promoInput.getText().toString().trim();
+            if (promocode.isEmpty()) {
                 Toast.makeText(PromoCodeActivity.this, "Please enter a promo Code", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
+                // Save promo code using SharedPreferences
+                SharedPreferences prefs = getSharedPreferences("BuddyCartPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("LAST_PROMO", promocode);
+                editor.apply();
+
                 Toast.makeText(PromoCodeActivity.this, "Promo Code applied successfully!", Toast.LENGTH_SHORT).show();
-                sendResultToMainActivity(promocode);
+                sendResultToMainActivity(promocode); // send back to CartActivity
             }
         });
 

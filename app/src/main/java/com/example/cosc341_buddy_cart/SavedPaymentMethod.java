@@ -58,7 +58,7 @@ public class SavedPaymentMethod  extends AppCompatActivity {
         String updatedPayment = sharedPreferences.getString("card_info", "No saved Payment methods");
         savedPaymentMethodText.setText(updatedPayment);
     }
-    //handles the result from payment activity to pass it into the main activity and update it 
+    //handles the result from payment activity to pass it into the main activity and update it
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
