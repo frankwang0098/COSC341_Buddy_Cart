@@ -28,6 +28,12 @@ public class OldPromoActivity extends AppCompatActivity {
         Button usebutton4 = findViewById(R.id.usebutton4);
         TextView receivedpromo = findViewById(R.id.newpromo);
 
+        String receivedPromo = getIntent().getStringExtra("PROMO_CODE");
+        if (receivedPromo != null && !receivedPromo.isEmpty()) {
+            receivedpromo.setText(receivedPromo);
+        }
+
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,35 +43,35 @@ public class OldPromoActivity extends AppCompatActivity {
             }
         });
 
-        usebutton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(OldPromoActivity.this, "Promo code 'SAVE10' has been applied!", Toast.LENGTH_SHORT).show();
-            }
+        usebutton1.setOnClickListener(v-> {
+            Toast.makeText(OldPromoActivity.this, "Promo code 'SAVE10' has been applied!", Toast.LENGTH_SHORT).show();
+            returnPromo("SAVE10");
         });
 
-        usebutton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(OldPromoActivity.this, "Promo code 'STUDENTS30' has been applied!", Toast.LENGTH_SHORT).show();
-            }
+        usebutton2.setOnClickListener(v ->  {
+            Toast.makeText(OldPromoActivity.this, "Promo code 'STUDENTS30' has been applied!", Toast.LENGTH_SHORT).show();
+            returnPromo("STUDENTS30");
         });
-        usebutton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(OldPromoActivity.this, "Promo code '30BTS' has been applied!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        String receivedPromo = getIntent().getStringExtra("PROMO_CODE");
 
-        if(receivedPromo!= null && !receivedPromo.isEmpty()) {
-            receivedpromo.setText(receivedPromo);
-        }
-        usebutton4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(OldPromoActivity.this, "Promo code " + receivedPromo +" has been applied", Toast.LENGTH_SHORT).show();
+        usebutton3.setOnClickListener(v->{
+            Toast.makeText(OldPromoActivity.this, "Promo code '30BTS' has been applied!", Toast.LENGTH_SHORT).show();
+            returnPromo("30BTS");
+        });
+
+
+        usebutton4.setOnClickListener(v-> {
+            if (receivedPromo != null && !receivedPromo.isEmpty()) {
+                Toast.makeText(this, "Promo code '" + receivedPromo + "' has been applied!", Toast.LENGTH_SHORT).show();
+                returnPromo(receivedPromo);
+            } else {
+                Toast.makeText(this, "No saved promo code to apply.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void returnPromo(String promo) {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("SELECTED_PROMO", promo);
+        setResult(RESULT_OK, resultIntent);
+        finish();
     }
 }
