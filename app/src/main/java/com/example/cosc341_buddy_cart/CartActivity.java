@@ -1,23 +1,38 @@
 package com.example.cosc341_buddy_cart;
 // this part was done by Sarah it starts with the cart page and goes into two different pages that shows how a user can add in promo code and payment methods
+// edited by Frank (Making a working Item Breakdown popup, other fixes, etc)
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
 public class CartActivity extends AppCompatActivity {
+
+    private ArrayList<GroceryItem> cartItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +52,41 @@ public class CartActivity extends AppCompatActivity {
         ImageButton backbutton = findViewById(R.id.backbutton);
         ImageButton instructionbutton = findViewById(R.id.instructionbutton);
 
-        Spinner itemDropdown = findViewById(R.id.itemdropdown);
+        Button itemBreakdownButton = findViewById(R.id.buttonItemBreakdown);
+
+        cartItems = new ArrayList<>();
+
+        DatabaseReference currentRef = FirebaseDatabase.getInstance().getReference("currentItems");
+        currentRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                cartItems.clear();
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    GroceryItem item = child.getValue(GroceryItem.class);
+                    // Only add items that actually have a name and quantity
+                    if (item != null && item.getName() != null) {
+                        cartItems.add(item);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(CartActivity.this, "Error loading cart items", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        itemBreakdownButton.setOnClickListener(v -> showItemBreakdownPopup());
 
         backbutton.setOnClickListener(view -> {
             Toast.makeText(CartActivity.this, "Going back to shopping", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(CartActivity.this, MainActivity.class);
-            startActivity(intent);
+            finish();
         });
         orderButton.setOnClickListener(view -> {
+            writeToFirebase();
             Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CartActivity.this, StartingScreen.class);
+            startActivity(intent);
             finish();
         });
         priorityButton.setOnClickListener(view -> {
@@ -57,24 +98,6 @@ public class CartActivity extends AppCompatActivity {
         scheduleButton.setOnClickListener(view -> {
             Toast.makeText(this, "Scheduled Delivery Selected", Toast.LENGTH_SHORT).show();
         } );
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cartexample,android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        itemDropdown.setAdapter(adapter);
-
-        itemDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position != 0){
-                    Toast.makeText(CartActivity.this, "Selected: "+parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         paymentbutton.setOnClickListener(view ->{
             Intent intent = new Intent(CartActivity.this, SavedPaymentMethod.class);
@@ -101,4 +124,86 @@ public class CartActivity extends AppCompatActivity {
         });
 
     }
+
+    private void writeToFirebase(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference("groceryItems");
+        root.setValue(cartItems);
+    }
+
+    private void showItemBreakdownPopup() {
+        // Inflate the same cart_popup.xml or a custom layout; you're reusing cart_popup.xml here.
+        View popupView = LayoutInflater.from(this).inflate(R.layout.cart_popup, null);
+
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                true
+        );
+
+        // Find your TextView to display item breakdown
+        TextView textViewCartPopupMessage = popupView.findViewById(R.id.textViewCartPopupMessage);
+        Button itemBreakdownButton = findViewById(R.id.buttonItemBreakdown);
+
+        // Build the cart details string
+        StringBuilder details = new StringBuilder();
+        double grandTotal = 0.0;
+        for (GroceryItem item : cartItems) {
+            if (item.getQuantity() > 0) {
+                double itemTotal = item.getQuantity() * item.getPrice();
+                grandTotal += itemTotal;
+                details.append(item.getName())
+                        .append(" x")
+                        .append(item.getQuantity())
+                        .append("       $")
+                        .append(String.format("%.2f", itemTotal))
+                        .append("\n");
+            }
+        }
+        if (details.length() == 0) {
+            textViewCartPopupMessage.setText("Your cart is empty");
+        } else {
+            details.append("\nTotal: $").append(String.format("%.2f", grandTotal));
+            textViewCartPopupMessage.setText(details.toString().trim());
+        }
+
+        // Hide the buttons
+        Button buttonCartHome = popupView.findViewById(R.id.buttonCartHome);
+        Button buttonClearCart = popupView.findViewById(R.id.buttonClearCart);
+        Button buttonCartLogout = popupView.findViewById(R.id.buttonCartLogout);
+        buttonCartHome.setVisibility(View.GONE);
+        buttonClearCart.setVisibility(View.GONE);
+        buttonCartLogout.setVisibility(View.GONE);
+
+        // Hide the icons too
+        View imageViewCartHome = popupView.findViewById(R.id.imageViewCartHome);
+        View imageViewClearCart = popupView.findViewById(R.id.imageViewClearCart);
+        View imageViewCartLogout = popupView.findViewById(R.id.imageViewCartLogout);
+        imageViewCartHome.setVisibility(View.GONE);
+        imageViewClearCart.setVisibility(View.GONE);
+        imageViewCartLogout.setVisibility(View.GONE);
+
+        // Finally, show the popup *near the Item Breakdown button*
+        // The first parameter is the anchor view, and 0,0 is the X/Y offset
+        popupWindow.showAsDropDown(itemBreakdownButton, -100, -200);
+    }
+
+    public static class GroceryItem {
+        private String name;
+        private int quantity;
+        private double price;
+
+        public GroceryItem() { }
+        public GroceryItem(String name, double price) {
+            this.name = name;
+            this.price = price;
+            this.quantity = 0;
+        }
+        public String getName() { return name; }
+        public int getQuantity() { return quantity; }
+        public double getPrice() { return price; }
+        public void increment() { quantity++; }
+        public void decrement() { if (quantity > 0) quantity--; }
+    }
+
 }

@@ -11,13 +11,14 @@
         android:id="@+id/backtoshoptext"
         android:layout_width="203dp"
         android:layout_height="28dp"
-        android:layout_marginTop="40dp"
         android:text="Back to Shopping "
         android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.216"
+        app:layout_constraintHorizontal_bias="0.259"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.056" />
 
     <TextView
         android:id="@+id/deliverytext"
@@ -26,10 +27,12 @@
         android:layout_marginTop="52dp"
         android:text="Deliver to:  "
         android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backtoshoptext" />
+        app:layout_constraintTop_toBottomOf="@+id/backtoshoptext"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/instructiontext"
@@ -38,10 +41,12 @@
         android:layout_marginTop="32dp"
         android:text="Add Instructions"
         android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deliverytext" />
+        app:layout_constraintTop_toBottomOf="@+id/deliverytext"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/deliveryoptiontext"
@@ -50,33 +55,35 @@
         android:layout_marginTop="52dp"
         android:text="Delivery Option "
         android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintHorizontal_bias="0.095"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/instructiontext" />
+        app:layout_constraintTop_toBottomOf="@+id/instructiontext"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/paywith"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginBottom="256dp"
         android:text="Pay With "
         android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.103"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemdropdown" />
+        app:layout_constraintHorizontal_bias="0.077"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/orderbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="72dp"
         android:text="Place Order "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.922" />
 
     <ImageButton
         android:id="@+id/paymentbutton"
@@ -84,10 +91,12 @@
         android:layout_height="29dp"
         android:layout_marginTop="20dp"
 
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/paywith"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/addicon" />
 
     <ImageButton
@@ -95,10 +104,12 @@
         android:layout_width="29dp"
         android:layout_height="34dp"
         android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/paymentbutton"
+        app:layout_constraintVertical_bias="0.012"
         app:srcCompat="@drawable/addicon" />
 
     <TextView
@@ -108,10 +119,12 @@
         android:layout_marginTop="20dp"
         android:text="Add Debit/Credit Card"
         android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/paywith" />
+        app:layout_constraintTop_toBottomOf="@+id/paywith"
+        app:layout_constraintVertical_bias="0.009" />
 
     <TextView
         android:id="@+id/promocodetext"
@@ -120,10 +133,12 @@
         android:layout_marginTop="28dp"
         android:text="Add promo/gift card"
         android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.327"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/paymenttext" />
+        app:layout_constraintTop_toBottomOf="@+id/paymenttext"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
         android:id="@+id/backbutton"
@@ -136,25 +151,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/backicon" />
 
-    <Spinner
-        android:id="@+id/itemdropdown"
-        android:layout_width="353dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="20dp"
-        android:entries="@array/cartexample"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deliverygroup" />
-
     <ImageButton
         android:id="@+id/instructionbutton"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.958"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deliverytext"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/next_icon" />
 
     <RadioGroup
@@ -163,10 +170,12 @@
         android:layout_height="58dp"
         android:layout_marginTop="4dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.371"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deliveryoptiontext">
+        app:layout_constraintTop_toBottomOf="@+id/deliveryoptiontext"
+        app:layout_constraintVertical_bias="0.0">
 
         <RadioButton
             android:id="@+id/prioritybutton"
@@ -193,11 +202,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:ems="10"
-        android:inputType="text"
         android:hint="Insert Address Here"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.626"
+        app:layout_constraintHorizontal_bias="0.67"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backtoshoptext" />
+        app:layout_constraintTop_toBottomOf="@+id/backtoshoptext"
+        app:layout_constraintVertical_bias="0.001" />
+
+    <Button
+        android:id="@+id/buttonItemBreakdown"
+        android:layout_width="224dp"
+        android:layout_height="48dp"
+        android:text="Item Breakdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deliverygroup"
+        app:layout_constraintVertical_bias="0.048" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
