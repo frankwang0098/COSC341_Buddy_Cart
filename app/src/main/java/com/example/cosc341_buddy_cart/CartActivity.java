@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,7 @@ public class CartActivity extends AppCompatActivity {
         RadioButton priorityButton = findViewById(R.id.prioritybutton);
         RadioButton nowButton = findViewById(R.id.nowbutton);
         RadioButton scheduleButton = findViewById(R.id.schedulebutton);
+        RadioGroup deliveryoption =findViewById(R.id.deliverygroup);
         Button orderButton = findViewById(R.id.orderbutton);
 
         ImageButton paymentbutton = findViewById(R.id.paymentbutton);
@@ -91,15 +93,15 @@ public class CartActivity extends AppCompatActivity {
         });
         orderButton.setOnClickListener(view -> {
             String address = addressText.getText().toString().trim();
-            String promo = promotext.getText().toString().trim();
             String payment =paymentText.getText().toString().trim();
+            int selectedDeliveryId = deliveryoption.getCheckedRadioButtonId();
 
             if (address.isEmpty()) {
                 Toast.makeText(this, "Please enter an address before placing the order", Toast.LENGTH_SHORT).show();
-            } else if (promo.isEmpty() || promo.equalsIgnoreCase("Add promo/gift card")) {
-                Toast.makeText(this, "Please apply a promo code before placing the order", Toast.LENGTH_SHORT).show();
             }  else if (payment.isEmpty() || payment.equalsIgnoreCase("Add Debit/Credit card")) {
                 Toast.makeText(this, "Please enter in your card information", Toast.LENGTH_SHORT).show();
+            } else if (selectedDeliveryId == -1) {
+                Toast.makeText(this, "Please select a delivery option", Toast.LENGTH_SHORT).show();
             }
                 else {
                 writeToFirebase();
