@@ -92,12 +92,16 @@ public class CartActivity extends AppCompatActivity {
         orderButton.setOnClickListener(view -> {
             String address = addressText.getText().toString().trim();
             String promo = promotext.getText().toString().trim();
+            String payment =paymentText.getText().toString().trim();
 
             if (address.isEmpty()) {
                 Toast.makeText(this, "Please enter an address before placing the order", Toast.LENGTH_SHORT).show();
             } else if (promo.isEmpty() || promo.equalsIgnoreCase("Add promo/gift card")) {
                 Toast.makeText(this, "Please apply a promo code before placing the order", Toast.LENGTH_SHORT).show();
-            } else {
+            }  else if (payment.isEmpty() || payment.equalsIgnoreCase("Add Debit/Credit card")) {
+                Toast.makeText(this, "Please enter in your card information", Toast.LENGTH_SHORT).show();
+            }
+                else {
                 writeToFirebase();
                 Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CartActivity.this, StartingScreen.class);
