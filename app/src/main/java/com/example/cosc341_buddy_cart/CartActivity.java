@@ -33,6 +33,8 @@ import java.util.ArrayList;
 public class CartActivity extends AppCompatActivity {
 
     private ArrayList<GroceryItem> cartItems;
+    private static final int PROMO_REQUEST_CODE =100;
+    private TextView promotext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         TextView instructionText = findViewById(R.id.instructiontext);
+        promotext = findViewById(R.id.promocodetext);
 
         RadioButton priorityButton = findViewById(R.id.prioritybutton);
         RadioButton nowButton = findViewById(R.id.nowbutton);
@@ -105,7 +108,7 @@ public class CartActivity extends AppCompatActivity {
         });
         promoCodebutton.setOnClickListener(view -> {
             Intent intent = new Intent(CartActivity.this, PromoCodeActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, PROMO_REQUEST_CODE);
         });
 
         instructionbutton.setOnClickListener(view -> {
@@ -123,6 +126,15 @@ public class CartActivity extends AppCompatActivity {
             builder.show();
         });
 
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PROMO_REQUEST_CODE && resultCode == RESULT_OK){
+            String selectedPromo = data.getStringExtra("SELECTED_PROMO");
+            if(selectedPromo != null && !selectedPromo.isEmpty()) {
+                promotext.setText(selectedPromo + " APPLIED");
+            }
+        }
     }
 
     private void writeToFirebase(){
