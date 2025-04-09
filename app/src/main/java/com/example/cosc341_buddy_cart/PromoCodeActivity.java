@@ -1,4 +1,5 @@
 package com.example.cosc341_buddy_cart;
+//this part was done fully by Sarah
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,12 +25,14 @@ public class PromoCodeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_promo_code);
 
+        //identifying the UI  elements needed
         ImageButton backbutton = findViewById(R.id.backbutton4);
         promoInput = findViewById(R.id.promogiftcardtext);
         Button redeembutton =findViewById(R.id.redeembutton);
         Button saveRedeembutton = findViewById(R.id.saveredeembutton);
         ImageButton oldPromoButton = findViewById(R.id.oldpromobutton);
 
+        //handles going back to the cart activity from the promocode activity
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +42,7 @@ public class PromoCodeActivity extends AppCompatActivity {
             }
         });
 
+        //updates the cart activity when the user enters in one and shows a toast message to show that it has been successfully applied
         redeembutton.setOnClickListener(v-> {
             String promocode =promoInput.getText().toString().trim();
             if(promocode.isEmpty()){
@@ -49,6 +53,7 @@ public class PromoCodeActivity extends AppCompatActivity {
             }
         });
 
+        //updates both the cart and oldpromo activity so that a user can use it later and so the user knows what promo code is being used in the current order
         saveRedeembutton.setOnClickListener(v -> {
             String promocode = promoInput.getText().toString().trim();
             if (promocode.isEmpty()) {
@@ -65,11 +70,13 @@ public class PromoCodeActivity extends AppCompatActivity {
             }
         });
 
+        //goes to the old promos already saved
         oldPromoButton.setOnClickListener(v->{
             Intent intent = new Intent(PromoCodeActivity.this, OldPromoActivity.class);
             startActivityForResult(intent, OLD_PROMO_REQUEST_CODE);
         });
     }
+    //sends the result into the cart activity
     private void sendResultToMainActivity(String code) {
         Intent resultIntent = new Intent();
         resultIntent.putExtra("SELECTED_PROMO", code);
@@ -77,6 +84,7 @@ public class PromoCodeActivity extends AppCompatActivity {
         finish();
     }
 
+    //also handles sending the result into the cart activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
