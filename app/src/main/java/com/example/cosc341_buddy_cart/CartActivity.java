@@ -44,6 +44,7 @@ public class CartActivity extends AppCompatActivity {
 
         TextView instructionText = findViewById(R.id.instructiontext);
         promotext = findViewById(R.id.promocodetext);
+        EditText addressText = findViewById(R.id.addresstext);
 
         RadioButton priorityButton = findViewById(R.id.prioritybutton);
         RadioButton nowButton = findViewById(R.id.nowbutton);
@@ -86,11 +87,20 @@ public class CartActivity extends AppCompatActivity {
             finish();
         });
         orderButton.setOnClickListener(view -> {
-            writeToFirebase();
-            Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(CartActivity.this, StartingScreen.class);
-            startActivity(intent);
-            finish();
+            String address = addressText.getText().toString().trim();
+            String promo = promotext.getText().toString().trim();
+
+            if (address.isEmpty()) {
+                Toast.makeText(this, "Please enter an address before placing the order", Toast.LENGTH_SHORT).show();
+            } else if (promo.isEmpty() || promo.equalsIgnoreCase("Add promo/gift card")) {
+                Toast.makeText(this, "Please apply a promo code before placing the order", Toast.LENGTH_SHORT).show();
+            } else {
+                writeToFirebase();
+                Toast.makeText(this, "Order Sucessfully Placed", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CartActivity.this, StartingScreen.class);
+                startActivity(intent);
+                finish();
+            }
         });
         priorityButton.setOnClickListener(view -> {
             Toast.makeText(this, "Priority Delivery Selected", Toast.LENGTH_SHORT).show();
