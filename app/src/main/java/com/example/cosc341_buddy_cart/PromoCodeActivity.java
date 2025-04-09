@@ -15,6 +15,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class PromoCodeActivity extends AppCompatActivity {
+    private static final int OLD_PROMO_REQUEST_CODE =101;
+    EditText promoInput;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +24,7 @@ public class PromoCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_promo_code);
 
         ImageButton backbutton = findViewById(R.id.backbutton4);
-        EditText promoInput = findViewById(R.id.promogiftcardtext);
+        promoInput = findViewById(R.id.promogiftcardtext);
         Button redeembutton =findViewById(R.id.redeembutton);
         Button saveRedeembutton = findViewById(R.id.saveredeembutton);
         ImageButton oldPromoButton = findViewById(R.id.oldpromobutton);
@@ -36,41 +38,50 @@ public class PromoCodeActivity extends AppCompatActivity {
             }
         });
 
-        redeembutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String promocode =promoInput.getText().toString().trim();
-                if(promocode.isEmpty()){
-                    Toast.makeText(PromoCodeActivity.this, "Please enter a promo Code", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(PromoCodeActivity.this, "Promo Code applied successfully!", Toast.LENGTH_SHORT).show();
-                }
+        redeembutton.setOnClickListener(v-> {
+            String promocode =promoInput.getText().toString().trim();
+            if(promocode.isEmpty()){
+                Toast.makeText(PromoCodeActivity.this, "Please enter a promo Code", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(PromoCodeActivity.this, "Promo Code applied successfully!", Toast.LENGTH_SHORT).show();
+                sendResultToMainActivity(promocode);
             }
         });
 
-        saveRedeembutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String promocode = promoInput.getText().toString().trim();
-                if(promocode.isEmpty()) {
-                    Toast.makeText(PromoCodeActivity.this, "Please enter a promo Code", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(PromoCodeActivity.this, "Promo code saved and succesfully applied",Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(PromoCodeActivity.this, OldPromoActivity.class);
-                    intent.putExtra("PROMO_CODE", promocode);
-                    startActivity(intent);
-                }
+
+
+        saveRedeembutton.setOnClickListener(v-> {
+            String promocode =promoInput.getText().toString().trim();
+            if(promocode.isEmpty()){
+                Toast.makeText(PromoCodeActivity.this, "Please enter a promo Code", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(PromoCodeActivity.this, "Promo Code applied successfully!", Toast.LENGTH_SHORT).show();
+                sendResultToMainActivity(promocode);
             }
         });
 
-        oldPromoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PromoCodeActivity.this, OldPromoActivity.class);
-                startActivity(intent);
-            }
+        oldPromoButton.setOnClickListener(v->{
+            Intent intent = new Intent(PromoCodeActivity.this, OldPromoActivity.class);
+            startActivityForResult(intent, OLD_PROMO_REQUEST_CODE);
         });
     }
+    private void sendResultToMainActivity(String code) {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("SELECTED_PROMO", code);
+        setResult(RESULT_OK, resultIntent);
+        finish();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == OLD_PROMO_REQUEST_CODE && resultCode == RESULT_OK) {
+            String selectedPromo = data.getStringExtra("SELECTED_PROMO");
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("SELECTED_PROMO", selectedPromo);
+            setResult(RESULT_OK, resultIntent);
+            finish();
+        }
+    }
 }
