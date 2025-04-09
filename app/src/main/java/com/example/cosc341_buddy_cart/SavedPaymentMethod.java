@@ -45,7 +45,7 @@ public class SavedPaymentMethod  extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (SavedPaymentMethod.this, PaymentActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -54,5 +54,13 @@ public class SavedPaymentMethod  extends AppCompatActivity {
         super.onResume();
         String updatedPayment = sharedPreferences.getString("card_info", "No saved Payment methods");
         savedPaymentMethodText.setText(updatedPayment);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            setResult(RESULT_OK, data);
+            finish();
+        }
     }
 }

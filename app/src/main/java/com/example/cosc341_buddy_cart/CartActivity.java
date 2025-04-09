@@ -34,7 +34,9 @@ public class CartActivity extends AppCompatActivity {
 
     private ArrayList<GroceryItem> cartItems;
     private static final int PROMO_REQUEST_CODE =100;
+    private static final int PAYMENT_REQUEST_CODE = 101;
     private TextView promotext;
+    private TextView paymentText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class CartActivity extends AppCompatActivity {
         TextView instructionText = findViewById(R.id.instructiontext);
         promotext = findViewById(R.id.promocodetext);
         EditText addressText = findViewById(R.id.addresstext);
+        paymentText = findViewById(R.id.paymenttext);
 
         RadioButton priorityButton = findViewById(R.id.prioritybutton);
         RadioButton nowButton = findViewById(R.id.nowbutton);
@@ -114,7 +117,7 @@ public class CartActivity extends AppCompatActivity {
 
         paymentbutton.setOnClickListener(view ->{
             Intent intent = new Intent(CartActivity.this, SavedPaymentMethod.class);
-            startActivity(intent);
+            startActivityForResult(intent, PAYMENT_REQUEST_CODE);
         });
         promoCodebutton.setOnClickListener(view -> {
             Intent intent = new Intent(CartActivity.this, PromoCodeActivity.class);
@@ -143,6 +146,12 @@ public class CartActivity extends AppCompatActivity {
             String selectedPromo = data.getStringExtra("SELECTED_PROMO");
             if(selectedPromo != null && !selectedPromo.isEmpty()) {
                 promotext.setText(selectedPromo + " APPLIED");
+            }
+        }
+        if (requestCode == PAYMENT_REQUEST_CODE && resultCode == RESULT_OK) {
+            String lastFourDigits = data.getStringExtra("LAST_FOUR_CARD_DIGITS");
+            if (lastFourDigits != null && !lastFourDigits.isEmpty()) {
+                paymentText.setText( "*"+ lastFourDigits + " card used");
             }
         }
     }
