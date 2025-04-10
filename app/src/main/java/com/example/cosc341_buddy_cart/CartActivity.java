@@ -34,8 +34,10 @@ import java.util.ArrayList;
 public class CartActivity extends AppCompatActivity {
 
     private ArrayList<GroceryItem> cartItems;
+    // request codes to help handle results from the promo and payment activities
     private static final int PROMO_REQUEST_CODE =100;
     private static final int PAYMENT_REQUEST_CODE = 101;
+    //allows promo and payment codes to be used in other places other than onCreate
     private TextView promotext;
     private TextView paymentText;
 
@@ -45,6 +47,7 @@ public class CartActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cart);
 
+        //Identifying the different types of buttons and text needed
         TextView instructionText = findViewById(R.id.instructiontext);
         promotext = findViewById(R.id.promocodetext);
         EditText addressText = findViewById(R.id.addresstext);
@@ -87,6 +90,7 @@ public class CartActivity extends AppCompatActivity {
 
         itemBreakdownButton.setOnClickListener(v -> showItemBreakdownPopup());
 
+        // allows user to go back back to shopping cart
         backbutton.setOnClickListener(view -> {
             Toast.makeText(CartActivity.this, "Going back to shopping", Toast.LENGTH_SHORT).show();
             finish();
@@ -95,7 +99,7 @@ public class CartActivity extends AppCompatActivity {
             String address = addressText.getText().toString().trim();
             String payment =paymentText.getText().toString().trim();
             int selectedDeliveryId = deliveryoption.getCheckedRadioButtonId();
-
+            // user needs to enter in specific information before they can place their order
             if (address.isEmpty()) {
                 Toast.makeText(this, "Please enter an address before placing the order", Toast.LENGTH_SHORT).show();
             }  else if (payment.isEmpty() || payment.equalsIgnoreCase("Add Debit/Credit card")) {
@@ -111,6 +115,7 @@ public class CartActivity extends AppCompatActivity {
                 finish();
             }
         });
+        //Tells the user what type of ordering option they choose
         priorityButton.setOnClickListener(view -> {
             Toast.makeText(this, "Priority Delivery Selected", Toast.LENGTH_SHORT).show();
         });
@@ -120,7 +125,7 @@ public class CartActivity extends AppCompatActivity {
         scheduleButton.setOnClickListener(view -> {
             Toast.makeText(this, "Scheduled Delivery Selected", Toast.LENGTH_SHORT).show();
         } );
-
+        //buttons to link the cart activity to the payment and promo code activities
         paymentbutton.setOnClickListener(view ->{
             Intent intent = new Intent(CartActivity.this, SavedPaymentMethod.class);
             startActivityForResult(intent, PAYMENT_REQUEST_CODE);
@@ -129,7 +134,7 @@ public class CartActivity extends AppCompatActivity {
             Intent intent = new Intent(CartActivity.this, PromoCodeActivity.class);
             startActivityForResult(intent, PROMO_REQUEST_CODE);
         });
-
+        //user can enter in an instruction in a dialog and it updates the Instuction text when the button is clicked if something is entered into it
         instructionbutton.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
 
@@ -146,6 +151,7 @@ public class CartActivity extends AppCompatActivity {
         });
 
     }
+    //handle the results that come in from the both promo code activities and also from the payment activity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PROMO_REQUEST_CODE && resultCode == RESULT_OK){

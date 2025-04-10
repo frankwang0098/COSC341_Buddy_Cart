@@ -1,4 +1,5 @@
 package com.example.cosc341_buddy_cart;
+//this part was done only by Sarah and adds a card into the ordering process
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class PaymentActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_payment_actvitiy);
 
+        //identifying the UI elements needed throughout the code
         EditText cardName = findViewById(R.id.cardname);
         EditText cardNumber = findViewById(R.id.cardnumber);
         EditText expiryDate = findViewById(R.id.datetext);
@@ -33,6 +35,7 @@ public class PaymentActivity extends AppCompatActivity {
         ImageButton backbutton = findViewById(R.id.backbutton3);
         CheckBox defaultcheckbox = findViewById(R.id.defaultcheckbox);
 
+        // the save button that checks if everything matches the correct format, gives errors if they don't, takes the information and displays it in the main activity
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +65,7 @@ public class PaymentActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(postalcode) || postalcode.length() !=7) {
                     postalcodetext.setError("Enter a valid postal code");
                 }
+                //collecting the last four digits of the card number entered and updating it into the cart activity
                 String lastFourDigits = number.substring(number.length() -4);
 
                 Intent resultIntent = new Intent();
@@ -71,7 +75,7 @@ public class PaymentActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        //back button to go back to the savedpaymentactivity
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +84,7 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
+        //checks to make sure the information is entered and if it is when the checkbox is clicked, shows a message that card has been set as default
         defaultcheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
